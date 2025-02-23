@@ -19,6 +19,8 @@ public class DtlOrderdetailsDTO implements Serializable {
 
     private BigDecimal unitPrice;
 
+    private BigDecimal discount;
+
     private BigDecimal subtotal;
 
 }

@@ -10,9 +10,6 @@ import java.util.Date;
 public class DtlOrdersVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int page = 0; // Default to first page
-    private int size = 10; // Default page size
-
     @NotNull(message = "orderID can not null")
     private Integer orderID;
 

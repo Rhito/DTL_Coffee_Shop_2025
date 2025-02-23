@@ -1,10 +1,10 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
 import lombok.Data;
-
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
-import jakarta.validation.constraints.NotNull;
+
 @Data
 public class DtlUsersVO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,6 +29,8 @@ public class DtlUsersVO implements Serializable {
     private String email;
 
     private Date createdAt;
+
+    private Date updatedAt;
 
     private String status;
 

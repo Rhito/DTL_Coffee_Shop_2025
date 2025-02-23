@@ -1,14 +1,8 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlProductsDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlPromotionsDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlProducts;
 import com.dtl._dtl_coffeeshop_2025.model.DtlPromotions;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlPromotionsRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsUpdateVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsQueryVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsUpdateVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsVO;
 
 @Service
 public class DtlPromotionsService {

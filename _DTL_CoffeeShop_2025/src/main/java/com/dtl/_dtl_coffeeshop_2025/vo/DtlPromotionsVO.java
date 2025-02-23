@@ -1,11 +1,11 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
-import lombok.Data;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
 
 @Data
 public class DtlPromotionsVO implements Serializable {
@@ -22,8 +22,10 @@ public class DtlPromotionsVO implements Serializable {
     @NotNull(message = "discountRate can not null")
     private BigDecimal discountRate;
 
+    @NotNull(message = "startDate can not null")
     private Date startDate;
 
+    @NotNull(message = "endDate can not null")
     private Date endDate;
 
     private String status;

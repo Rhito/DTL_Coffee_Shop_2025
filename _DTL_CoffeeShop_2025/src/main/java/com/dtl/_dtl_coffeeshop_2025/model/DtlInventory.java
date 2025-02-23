@@ -25,6 +25,6 @@ public class DtlInventory implements Serializable {
     private Integer quantity;
 
     @Column(name = "LastUpdated")
-    private Date lastUpdated;
+    private Date lastUpdated = new Date();
 
 }

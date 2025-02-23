@@ -2,9 +2,10 @@ package com.dtl._dtl_coffeeshop_2025.vo;
 
 import lombok.Data;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+
+import jakarta.validation.constraints.NotNull;
 
 @Data
 public class DtlCustomersVO implements Serializable {
@@ -23,5 +24,7 @@ public class DtlCustomersVO implements Serializable {
     private String address;
 
     private Date createdAt;
+
+    private Date updatedAt;
 
 }

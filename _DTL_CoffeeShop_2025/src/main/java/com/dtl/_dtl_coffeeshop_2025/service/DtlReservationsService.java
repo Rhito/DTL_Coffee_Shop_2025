@@ -1,11 +1,8 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlPromotionsDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlReservationsDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlPromotions;
 import com.dtl._dtl_coffeeshop_2025.model.DtlReservations;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlReservationsRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlReservationsQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlReservationsUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlReservationsVO;

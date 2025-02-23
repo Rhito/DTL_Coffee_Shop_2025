@@ -1,14 +1,8 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlInventoryDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlOrdersDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlInventory;
 import com.dtl._dtl_coffeeshop_2025.model.DtlOrders;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlOrdersRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlInventoryQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersUpdateVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersQueryVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersUpdateVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrdersVO;
 
 import java.util.NoSuchElementException;
 

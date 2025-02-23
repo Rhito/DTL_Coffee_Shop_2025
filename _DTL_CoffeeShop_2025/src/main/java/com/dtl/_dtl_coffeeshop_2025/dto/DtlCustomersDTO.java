@@ -21,4 +21,6 @@ public class DtlCustomersDTO implements Serializable {
 
     private Date createdAt;
 
+    private Date updatedAt;
+
 }

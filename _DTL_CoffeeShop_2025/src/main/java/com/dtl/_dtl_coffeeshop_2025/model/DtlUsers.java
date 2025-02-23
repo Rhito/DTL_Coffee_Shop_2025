@@ -38,6 +38,8 @@ public class DtlUsers implements Serializable {
 
     @Column(name = "CreatedAt")
     private Date createdAt;
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
     @Column(name = "Status")
     private String status = "Active";

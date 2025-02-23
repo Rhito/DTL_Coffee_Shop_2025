@@ -1,19 +1,21 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
+import com.dtl._dtl_coffeeshop_2025.dto.DtlCategoriesDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlCustomersDTO;
+import com.dtl._dtl_coffeeshop_2025.model.DtlCategories;
 import com.dtl._dtl_coffeeshop_2025.model.DtlCustomers;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlCustomersRepository;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlCategoriesQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
@@ -45,13 +47,15 @@ public class DtlCustomersService {
         return toDTO(original);
     }
 
-
     public Page<DtlCustomersDTO> query(DtlCustomersQueryVO vO) {
-        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize(), Sort.by("customerID").ascending());
+        int page = (vO.getPage() != 0) ? vO.getPage() : 0;
+        int size = (vO.getSize() != 0) ? vO.getSize() : 10;
 
-        Page<DtlCustomers> page = dtlCustomersRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("customerID").ascending());
 
-        return page.map(this::toDTO);
+        Page<DtlCustomers> pageResult = dtlCustomersRepository.findAll(pageable);
+
+        return pageResult.map(this::toDTO);
     }
 
     private DtlCustomersDTO toDTO(DtlCustomers original) {

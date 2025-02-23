@@ -1,17 +1,15 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
 import lombok.Data;
-import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 public class DtlProductsVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    private int page = 0; // Default to first page
-    private int size = 10; // Default page size
 
     @NotNull(message = "productID can not null")
     private Integer productID;
@@ -29,6 +27,8 @@ public class DtlProductsVO implements Serializable {
     private String imageURL;
 
     private Date createdAt;
+
+    private Date updatedAt;
 
     private String status;
 

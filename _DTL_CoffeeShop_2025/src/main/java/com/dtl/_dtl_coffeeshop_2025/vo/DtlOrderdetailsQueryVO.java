@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 public class DtlOrderdetailsQueryVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int page = 0; // Default to first page
-    private int size = 10; // Default page size
+    private int page = 0;
+    private int size = 10;
 
     private Integer orderDetailID;
 
@@ -22,6 +22,8 @@ public class DtlOrderdetailsQueryVO implements Serializable {
     private Integer quantity;
 
     private BigDecimal unitPrice;
+
+    private BigDecimal discount;
 
     private BigDecimal subtotal;
 

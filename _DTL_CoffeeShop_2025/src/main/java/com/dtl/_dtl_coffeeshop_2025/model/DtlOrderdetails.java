@@ -12,23 +12,28 @@ import java.math.BigDecimal;
 public class DtlOrderdetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Ensure auto-increment works properly
-    @Column(name = "OrderDetailID", nullable = false, unique = true)
+    @Column(name = "OrderDetailID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderDetailID;
 
-    @Column(name = "OrderID", nullable = false)
+    @Column(name = "OrderID")
     private Integer orderID;
 
-    @Column(name = "ProductID", nullable = false)
+    @Column(name = "ProductID")
     private Integer productID;
 
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "UnitPrice", nullable = false, precision = 10, scale = 2)
+    @Column(name = "UnitPrice", nullable = false)
     private BigDecimal unitPrice;
 
-    @Column(name = "Subtotal", nullable = false, precision = 10, scale = 2)
-    private BigDecimal subtotal;
+    @Column(name = "Discount")
+    private BigDecimal discount = BigDecimal.ZERO;
+
+    @Column(name = "Subtotal")
+    private BigDecimal subtotal = BigDecimal.ZERO;
+
 }

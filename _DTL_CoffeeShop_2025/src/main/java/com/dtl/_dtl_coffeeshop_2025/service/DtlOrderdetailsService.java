@@ -1,14 +1,11 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlInventoryDTO;
+import com.dtl._dtl_coffeeshop_2025.dto.DtlCustomersDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlOrderdetailsDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlInventory;
+import com.dtl._dtl_coffeeshop_2025.model.DtlCustomers;
 import com.dtl._dtl_coffeeshop_2025.model.DtlOrderdetails;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlOrderdetailsRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlInventoryQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsQueryVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsUpdateVO;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersQueryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsQueryVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsUpdateVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsVO;
 
 import java.util.NoSuchElementException;
 
@@ -48,11 +48,14 @@ public class DtlOrderdetailsService {
     }
 
     public Page<DtlOrderdetailsDTO> query(DtlOrderdetailsQueryVO vO) {
-        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize());
+        int page = (vO.getPage() != 0) ? vO.getPage() : 0;
+        int size = (vO.getSize() != 0) ? vO.getSize() : 10;
 
-        Page<DtlOrderdetails> page = dtlOrderdetailsRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("OrderDetailID").ascending());
 
-        return page.map(this::toDTO);
+        Page<DtlOrderdetails> pageResult = dtlOrderdetailsRepository.findAll(pageable);
+
+        return pageResult.map(this::toDTO);
     }
 
     private DtlOrderdetailsDTO toDTO(DtlOrderdetails original) {

@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class DtlCategoriesService {
@@ -43,13 +45,23 @@ public class DtlCategoriesService {
         DtlCategories original = requireOne(id);
         return toDTO(original);
     }
+    public List<DtlCategoriesDTO> queryAll() {
+        List<DtlCategories> categories = dtlCategoriesRepository.findAll();
+        return categories.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
     public Page<DtlCategoriesDTO> query(DtlCategoriesQueryVO vO) {
-        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize(), Sort.by("categoryID").descending());
-        Page<DtlCategories> categoriesPage = dtlCategoriesRepository.findAll(pageable);
+        int page = (vO.getPage() != 0) ? vO.getPage() : 0;
+        int size = (vO.getSize() != 0) ? vO.getSize() : 10;
 
-        return categoriesPage.map(this::toDTO);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("categoryID").ascending());
+
+        Page<DtlCategories> pageResult = dtlCategoriesRepository.findAll(pageable);
+
+        return pageResult.map(this::toDTO);
     }
+
+
 
     private DtlCategoriesDTO toDTO(DtlCategories original) {
         DtlCategoriesDTO bean = new DtlCategoriesDTO();

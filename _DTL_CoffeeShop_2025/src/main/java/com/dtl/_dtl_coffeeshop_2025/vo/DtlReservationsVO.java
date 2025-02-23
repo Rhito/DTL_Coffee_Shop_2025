@@ -1,7 +1,8 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
-import lombok.Data;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 

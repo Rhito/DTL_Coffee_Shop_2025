@@ -1,14 +1,14 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlCustomersDTO;
-import com.dtl._dtl_coffeeshop_2025.dto.DtlInventoryDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlCustomers;
-import com.dtl._dtl_coffeeshop_2025.model.DtlInventory;
-import com.dtl._dtl_coffeeshop_2025.repository.DtlInventoryRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersQueryVO;
+import com.dtl._dtl_coffeeshop_2025.dto.DtlProductsDTO;
+import com.dtl._dtl_coffeeshop_2025.model.DtlProducts;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlInventoryQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlInventoryUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlInventoryVO;
+import com.dtl._dtl_coffeeshop_2025.dto.DtlInventoryDTO;
+import com.dtl._dtl_coffeeshop_2025.model.DtlInventory;
+import com.dtl._dtl_coffeeshop_2025.repository.DtlInventoryRepository;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsQueryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,7 +48,7 @@ public class DtlInventoryService {
     }
 
     public Page<DtlInventoryDTO> query(DtlInventoryQueryVO vO) {
-        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize(), Sort.by("inventoryID").ascending());
+        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize(), Sort.by("ProductID").ascending());
 
         Page<DtlInventory> page = dtlInventoryRepository.findAll(pageable);
 

@@ -31,6 +31,9 @@ public class DtlCustomers implements Serializable {
     private String address;
 
     @Column(name = "CreatedAt")
-    private Date createdAt;
+    private Date createdAt = new Date();
+
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
 }

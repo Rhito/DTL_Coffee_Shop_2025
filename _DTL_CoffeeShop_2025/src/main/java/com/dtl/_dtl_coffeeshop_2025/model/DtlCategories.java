@@ -25,11 +25,12 @@ public class DtlCategories implements Serializable {
     private String description;
 
     @Column(name = "CreatedAt")
-    private Date createdAt;
+    private Date createdAt = new Date();
+
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
     @Column(name = "Status")
     private String status = "Active";
-    @Column(name = "parent_id", nullable = false)
-    private Integer parentId;
 
 }
