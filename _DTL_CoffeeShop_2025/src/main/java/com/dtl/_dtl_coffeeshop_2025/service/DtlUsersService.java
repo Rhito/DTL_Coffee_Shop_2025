@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @Service
@@ -25,6 +26,8 @@ public class DtlUsersService {
     public Integer save(DtlUsersVO vO) {
         DtlUsers bean = new DtlUsers();
         BeanUtils.copyProperties(vO, bean);
+        bean.setUpdatedAt(new Date());
+        bean.setCreatedAt(new Date());
         bean = dtlUsersRepository.save(bean);
         return bean.getUserID();
     }
@@ -35,9 +38,14 @@ public class DtlUsersService {
 
     public void update(Integer id, DtlUsersUpdateVO vO) {
         DtlUsers bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        if (vO.getUserID() != null && !id.equals(vO.getUserID())) {
+            throw new IllegalArgumentException("UserID cannot be changed!");
+        }
+        BeanUtils.copyProperties(vO, bean, "userID");
+        bean.setUpdatedAt(new Date());
         dtlUsersRepository.save(bean);
     }
+
 
     public DtlUsersDTO getById(Integer id) {
         DtlUsers original = requireOne(id);

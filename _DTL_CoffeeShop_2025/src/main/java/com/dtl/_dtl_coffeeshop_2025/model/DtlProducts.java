@@ -21,8 +21,6 @@ public class DtlProducts implements Serializable {
 
     @Column(name = "ProductName", nullable = false)
     private String productName;
-    @Column(name = "category_id", nullable = false)
-    private Integer categoryId;
 
     @Column(name = "CategoryID")
     private Integer categoryID;
@@ -36,8 +34,13 @@ public class DtlProducts implements Serializable {
     @Column(name = "ImageURL")
     private String imageURL;
 
-    @Column(name = "CreatedAt")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CreatedAt", updatable = false)
     private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
     @Column(name = "Status")
     private String status = "Active";

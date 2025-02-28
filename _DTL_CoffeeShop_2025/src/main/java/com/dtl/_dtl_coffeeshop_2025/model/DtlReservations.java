@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,8 +24,9 @@ public class DtlReservations implements Serializable {
     @Column(name = "TableID")
     private Integer tableID;
 
-    @Column(name = "ReservationDate", nullable = false)
-    private LocalDateTime reservationDate = LocalDateTime.now();
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "reservationDate", nullable = false)
+    private Date reservationDate;
 
     @Column(name = "NumberOfGuests", nullable = false)
     private Integer numberOfGuests;
@@ -35,5 +36,13 @@ public class DtlReservations implements Serializable {
 
     @Column(name = "Notes")
     private String notes;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", updatable = false)
+    private Date createdAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
 }

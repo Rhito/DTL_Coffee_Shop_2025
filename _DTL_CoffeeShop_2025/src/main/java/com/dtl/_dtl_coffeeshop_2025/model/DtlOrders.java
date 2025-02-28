@@ -37,4 +37,12 @@ public class DtlOrders implements Serializable {
     @Column(name = "Notes")
     private String notes;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", updatable = false)
+    private Date createdAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
+
 }

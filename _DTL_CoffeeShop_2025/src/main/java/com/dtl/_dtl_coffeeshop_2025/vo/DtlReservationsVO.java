@@ -1,5 +1,6 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 public class DtlReservationsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "reservationID can not null")
+    //@NotNull(message = "reservationID can not null")
     private Integer reservationID;
 
     private Integer customerID;
@@ -18,6 +19,7 @@ public class DtlReservationsVO implements Serializable {
     private Integer tableID;
 
     @NotNull(message = "reservationDate can not null")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reservationDate;
 
     @NotNull(message = "numberOfGuests can not null")

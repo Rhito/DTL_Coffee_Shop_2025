@@ -2,6 +2,7 @@ package com.dtl._dtl_coffeeshop_2025.controller;
 
 import com.dtl._dtl_coffeeshop_2025.dto.DtlTablesDTO;
 import com.dtl._dtl_coffeeshop_2025.service.DtlTablesService;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlPromotionsUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlTablesQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlTablesUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlTablesVO;

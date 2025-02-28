@@ -1,6 +1,7 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
 
+import com.dtl._dtl_coffeeshop_2025.model.UserRole;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,11 +22,12 @@ public class DtlUsersQueryVO implements Serializable {
 
     private String fullName;
 
-    private String role;
+    private UserRole role;
 
     private String phoneNumber;
 
     private String email;
+    private String address;
 
     private Date createdAt;
 

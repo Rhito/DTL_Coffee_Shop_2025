@@ -12,10 +12,10 @@ import java.util.Date;
 public class DtlCategoriesVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "categoryID can not null")
+    //@NotNull(message = "categoryID can not null")
     private Integer categoryID;
 
-    @NotNull(message = "categoryName can not null")
+   @NotNull(message = "categoryName can not null")
     private String categoryName;
 
     private String description;

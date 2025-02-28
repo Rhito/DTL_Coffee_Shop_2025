@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
@@ -13,7 +14,7 @@ public class DtlTables implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "TableID", nullable = false)
+    @Column(name = "TableID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tableID;
 
@@ -25,5 +26,13 @@ public class DtlTables implements Serializable {
 
     @Column(name = "Status")
     private String status = "Available";
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", updatable = false)
+    private Date createdAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
 }

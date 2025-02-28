@@ -19,6 +19,8 @@ public class DtlInventoryQueryVO implements Serializable {
 
     private Integer quantity;
 
-    private Date lastUpdated;
+    private Date createdAt;
+
+    private Date updatedAt;
 
 }

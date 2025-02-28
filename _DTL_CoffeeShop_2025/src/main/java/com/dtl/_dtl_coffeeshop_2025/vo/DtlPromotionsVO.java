@@ -11,7 +11,7 @@ import java.util.Date;
 public class DtlPromotionsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "promotionID can not null")
+    //@NotNull(message = "promotionID can not null")
     private Integer promotionID;
 
     @NotNull(message = "promotionName can not null")

@@ -35,7 +35,7 @@ public class DtlPromotionsService {
 
     public void update(Integer id, DtlPromotionsUpdateVO vO) {
         DtlPromotions bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "promotionID");
         dtlPromotionsRepository.save(bean);
     }
 

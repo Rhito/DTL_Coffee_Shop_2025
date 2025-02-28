@@ -35,7 +35,7 @@ public class DtlOrdersService {
 
     public void update(Integer id, DtlOrdersUpdateVO vO) {
         DtlOrders bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "orderID");
         dtlOrdersRepository.save(bean);
     }
 

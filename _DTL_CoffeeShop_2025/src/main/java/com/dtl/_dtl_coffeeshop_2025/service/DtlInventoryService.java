@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @Service
@@ -28,6 +29,8 @@ public class DtlInventoryService {
     public Integer save(DtlInventoryVO vO) {
         DtlInventory bean = new DtlInventory();
         BeanUtils.copyProperties(vO, bean);
+        bean.setUpdatedAt(new Date());
+        bean.setCreatedAt(new Date());
         bean = dtlInventoryRepository.save(bean);
         return bean.getInventoryID();
     }
@@ -38,7 +41,8 @@ public class DtlInventoryService {
 
     public void update(Integer id, DtlInventoryUpdateVO vO) {
         DtlInventory bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "inventoryID");
+        bean.setUpdatedAt(new Date());
         dtlInventoryRepository.save(bean);
     }
 

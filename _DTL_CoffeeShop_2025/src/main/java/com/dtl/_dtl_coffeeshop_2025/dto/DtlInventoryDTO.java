@@ -14,7 +14,7 @@ public class DtlInventoryDTO implements Serializable {
     private Integer productID;
 
     private Integer quantity;
-
-    private Date lastUpdated;
+    private Date createdAt;
+    private Date updatedAt;
 
 }

@@ -23,4 +23,8 @@ public class DtlReservationsDTO implements Serializable {
 
     private String notes;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
 }

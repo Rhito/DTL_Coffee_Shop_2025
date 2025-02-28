@@ -35,7 +35,7 @@ public class DtlProductsService {
 
     public void update(Integer id, DtlProductsUpdateVO vO) {
         DtlProducts bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "productID");
         dtlProductsRepository.save(bean);
     }
 

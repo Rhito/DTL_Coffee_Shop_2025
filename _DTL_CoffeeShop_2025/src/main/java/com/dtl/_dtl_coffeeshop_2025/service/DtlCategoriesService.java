@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ public class DtlCategoriesService {
     public Integer save(DtlCategoriesVO vO) {
         DtlCategories bean = new DtlCategories();
         BeanUtils.copyProperties(vO, bean);
+        bean.setCreatedAt(new Date());
+        bean.setUpdatedAt(new Date());
         bean = dtlCategoriesRepository.save(bean);
         return bean.getCategoryID();
     }
@@ -37,9 +40,11 @@ public class DtlCategoriesService {
 
     public void update(Integer id, DtlCategoriesUpdateVO vO) {
         DtlCategories bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "CategoryID");
+        bean.setUpdatedAt(new Date());
         dtlCategoriesRepository.save(bean);
     }
+
 
     public DtlCategoriesDTO getById(Integer id) {
         DtlCategories original = requireOne(id);

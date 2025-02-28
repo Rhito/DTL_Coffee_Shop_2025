@@ -1,11 +1,8 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlCustomersDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlOrderdetailsDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlCustomers;
 import com.dtl._dtl_coffeeshop_2025.model.DtlOrderdetails;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlOrderdetailsRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.DtlCustomersQueryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +14,7 @@ import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlOrderdetailsVO;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @Service
@@ -38,7 +36,9 @@ public class DtlOrderdetailsService {
 
     public void update(Integer id, DtlOrderdetailsUpdateVO vO) {
         DtlOrderdetails bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "orderDetailID");
+        bean.setUpdatedAt(new Date());
+        bean.setCreatedAt(new Date());
         dtlOrderdetailsRepository.save(bean);
     }
 

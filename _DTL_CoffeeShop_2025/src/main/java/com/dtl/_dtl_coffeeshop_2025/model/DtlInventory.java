@@ -24,7 +24,12 @@ public class DtlInventory implements Serializable {
     @Column(name = "Quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "LastUpdated")
-    private Date lastUpdated = new Date();
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", updatable = false)
+    private Date createdAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
 }

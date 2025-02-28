@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 public class DtlProductsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "productID can not null")
+   // @NotNull(message = "productID can not null")
     private Integer productID;
 
     @NotNull(message = "productName can not null")

@@ -10,7 +10,7 @@ import java.util.Date;
 public class DtlOrdersVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "orderID can not null")
+    //@NotNull(message = "orderID can not null")
     private Integer orderID;
 
     private Integer customerID;

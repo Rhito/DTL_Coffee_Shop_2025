@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @Service
@@ -23,11 +24,18 @@ public class DtlReservationsService {
     private DtlReservationsRepository dtlReservationsRepository;
 
     public Integer save(DtlReservationsVO vO) {
-        DtlReservations bean = new DtlReservations();
-        BeanUtils.copyProperties(vO, bean);
-        bean = dtlReservationsRepository.save(bean);
-        return bean.getReservationID();
+        DtlReservations entity = new DtlReservations();
+        BeanUtils.copyProperties(vO, entity);
+
+        if (entity.getReservationDate() == null) {
+            throw new IllegalArgumentException("Reservation date cannot be null");
+        }
+        entity.setCreatedAt(new Date());
+        entity.setUpdatedAt(new Date());
+        entity = dtlReservationsRepository.save(entity);
+        return entity.getReservationID();
     }
+
 
     public void delete(Integer id) {
         dtlReservationsRepository.deleteById(id);
@@ -35,7 +43,7 @@ public class DtlReservationsService {
 
     public void update(Integer id, DtlReservationsUpdateVO vO) {
         DtlReservations bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vO, bean, "reservationID");
         dtlReservationsRepository.save(bean);
     }
 

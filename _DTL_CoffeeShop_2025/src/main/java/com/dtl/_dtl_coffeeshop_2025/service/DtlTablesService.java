@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @Service
@@ -25,6 +26,8 @@ public class DtlTablesService {
     public Integer save(DtlTablesVO vO) {
         DtlTables bean = new DtlTables();
         BeanUtils.copyProperties(vO, bean);
+        bean.setCreatedAt(new Date());
+        bean.setUpdatedAt(new Date());
         bean = dtlTablesRepository.save(bean);
         return bean.getTableID();
     }
@@ -34,10 +37,19 @@ public class DtlTablesService {
     }
 
     public void update(Integer id, DtlTablesUpdateVO vO) {
-        DtlTables bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean);
+        DtlTables bean = requireOne(id); // Lấy dữ liệu cũ từ DB
+
+        // Chỉ cập nhật các trường cần thiết, tránh ghi đè ID
+        bean.setTableName(vO.getTableName());
+        bean.setCapacity(vO.getCapacity());
+        bean.setStatus(vO.getStatus());
+
+        bean.setUpdatedAt(new Date()); // Cập nhật thời gian sửa đổi
+
         dtlTablesRepository.save(bean);
     }
+
+
 
     public DtlTablesDTO getById(Integer id) {
         DtlTables original = requireOne(id);

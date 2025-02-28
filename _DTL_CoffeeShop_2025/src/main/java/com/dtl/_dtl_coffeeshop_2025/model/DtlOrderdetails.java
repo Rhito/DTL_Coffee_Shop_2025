@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Entity
@@ -35,5 +36,13 @@ public class DtlOrderdetails implements Serializable {
 
     @Column(name = "Subtotal")
     private BigDecimal subtotal = BigDecimal.ZERO;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", updatable = false)
+    private Date createdAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt = new Date();
 
 }

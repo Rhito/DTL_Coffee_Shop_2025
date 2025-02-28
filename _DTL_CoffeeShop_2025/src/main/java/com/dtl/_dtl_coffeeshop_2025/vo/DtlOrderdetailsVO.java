@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class DtlOrderdetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "orderDetailID can not null")
+   // @NotNull(message = "orderDetailID can not null")
     private Integer orderDetailID;
 
     private Integer orderID;

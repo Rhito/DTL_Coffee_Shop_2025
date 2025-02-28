@@ -1,7 +1,10 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
-import lombok.Data;
+import com.dtl._dtl_coffeeshop_2025.dto.DtlUsersDTO;
+import com.dtl._dtl_coffeeshop_2025.model.UserRole;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +12,7 @@ import java.util.Date;
 public class DtlUsersVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "userID can not null")
+    //@NotNull(message = "userID can not null")
     private Integer userID;
 
     @NotNull(message = "username can not null")
@@ -22,16 +25,17 @@ public class DtlUsersVO implements Serializable {
     private String fullName;
 
     @NotNull(message = "role can not null")
-    private String role;
+    private UserRole role;
 
     private String phoneNumber;
 
     private String email;
 
+    private String status;
+
     private Date createdAt;
 
     private Date updatedAt;
 
-    private String status;
 
 }
