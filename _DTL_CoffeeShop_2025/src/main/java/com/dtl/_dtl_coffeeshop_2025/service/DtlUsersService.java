@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,7 +42,15 @@ public class DtlUsersService {
         if (vO.getUserID() != null && !id.equals(vO.getUserID())) {
             throw new IllegalArgumentException("UserID cannot be changed!");
         }
-        BeanUtils.copyProperties(vO, bean, "userID");
+        BeanUtils.copyProperties(vO, bean, "userID", "passwordHash");
+        // Mã hóa password nếu có
+        if (vO.getPassword() != null && !vO.getPassword().isEmpty()) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(vO.getPassword());
+            bean.setPasswordHash(hashedPassword); // Lưu hash vào passwordHash
+        }
+
+
         bean.setUpdatedAt(new Date());
         dtlUsersRepository.save(bean);
     }

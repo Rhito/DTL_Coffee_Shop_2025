@@ -2,6 +2,7 @@ package com.dtl._dtl_coffeeshop_2025.vo;
 
 import com.dtl._dtl_coffeeshop_2025.dto.DtlUsersDTO;
 import com.dtl._dtl_coffeeshop_2025.model.UserRole;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -18,8 +19,8 @@ public class DtlUsersVO implements Serializable {
     @NotNull(message = "username can not null")
     private String username;
 
-    @NotNull(message = "passwordHash can not null")
-    private String passwordHash;
+    @NotBlank(message = "Password không được để trống")
+    private String password;
 
     @NotNull(message = "fullName can not null")
     private String fullName;

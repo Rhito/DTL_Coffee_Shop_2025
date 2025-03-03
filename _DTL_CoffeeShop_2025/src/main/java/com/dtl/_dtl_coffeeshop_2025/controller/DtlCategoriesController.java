@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +22,32 @@ public class DtlCategoriesController {
     private DtlCategoriesService dtlCategoriesService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // Chỉ ADMIN hoặc STAFF được thêm danh mục
     public String save(@Valid @RequestBody DtlCategoriesVO vO) {
         return dtlCategoriesService.save(vO).toString();
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')") // Chỉ ADMIN có thể xóa danh mục
     public void delete(@Valid @NotNull @PathVariable("id") Integer id) {
         dtlCategoriesService.delete(id);
     }
 
     @PutMapping("edit/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // ADMIN & STAFF có thể sửa
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlCategoriesUpdateVO vO) {
         dtlCategoriesService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem
     public DtlCategoriesDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlCategoriesService.getById(id);
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả có thể xem danh sách
     public Page<DtlCategoriesDTO> query(@Valid DtlCategoriesQueryVO vO) {
         return dtlCategoriesService.query(vO);
     }

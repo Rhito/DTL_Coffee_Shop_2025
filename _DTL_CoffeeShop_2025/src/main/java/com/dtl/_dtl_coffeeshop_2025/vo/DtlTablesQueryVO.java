@@ -10,7 +10,7 @@ public class DtlTablesQueryVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int page  = 0;
-    private int size = 10;
+    private int size = 1000;
 
     private Integer tableID;
 

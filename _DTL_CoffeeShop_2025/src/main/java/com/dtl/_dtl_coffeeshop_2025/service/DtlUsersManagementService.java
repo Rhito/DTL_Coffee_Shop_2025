@@ -2,6 +2,7 @@ package com.dtl._dtl_coffeeshop_2025.service;
 
 import com.dtl._dtl_coffeeshop_2025.dto.DtlUsersDTO;
 import com.dtl._dtl_coffeeshop_2025.model.DtlUsers;
+import com.dtl._dtl_coffeeshop_2025.model.UserRole;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlUsersRepository;
 import com.dtl._dtl_coffeeshop_2025.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class DtlUsersManagementService {
             DtlUsers newUser = new DtlUsers();
             newUser.setUsername(registrationRequest.getUsername());
             newUser.setEmail(registrationRequest.getEmail());
-            newUser.setRole(registrationRequest.getRole());
+            newUser.setRole(UserRole.CUSTOMER);  // 🟢 enum UserRole
             newUser.setPasswordHash(passwordEncoder.encode(registrationRequest.getPassword()));
             newUser.setFullName(registrationRequest.getFullName());
 
@@ -79,6 +80,7 @@ public class DtlUsersManagementService {
             // Set thông tin vào DTO
             responseDTO.setStatusCode(200);
             responseDTO.setToken(jwt);
+            responseDTO.setRole(user.getRole());
             responseDTO.setRefreshToken(refreshToken);
 
             // Thiết lập thời gian hết hạn token (24 giờ)

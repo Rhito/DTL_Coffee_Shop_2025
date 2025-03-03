@@ -2,6 +2,7 @@ package com.dtl._dtl_coffeeshop_2025.vo;
 
 
 import lombok.Data;
+import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +12,7 @@ public class DtlCategoriesQueryVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int page = 0;
-    private int size = 10;
+    private int size = 1000;
 
     private Integer categoryID;
 

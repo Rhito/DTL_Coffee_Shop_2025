@@ -56,10 +56,8 @@ public class DtlCategoriesService {
     }
 
     public Page<DtlCategoriesDTO> query(DtlCategoriesQueryVO vO) {
-        int page = (vO.getPage() != 0) ? vO.getPage() : 0;
-        int size = (vO.getSize() != 0) ? vO.getSize() : 10;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("categoryID").ascending());
+        Pageable pageable = PageRequest.of( vO.getPage(),vO.getSize(), Sort.by("categoryID").ascending());
 
         Page<DtlCategories> pageResult = dtlCategoriesRepository.findAll(pageable);
 
