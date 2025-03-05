@@ -19,7 +19,7 @@ public class DtlUsersVO implements Serializable {
     @NotNull(message = "username can not null")
     private String username;
 
-    @NotBlank(message = "Password không được để trống")
+    @NotBlank(message = "Password can not be null")
     private String password;
 
     @NotNull(message = "fullName can not null")

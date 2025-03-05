@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class DtlUsersService {
@@ -43,14 +44,12 @@ public class DtlUsersService {
             throw new IllegalArgumentException("UserID cannot be changed!");
         }
         BeanUtils.copyProperties(vO, bean, "userID", "passwordHash");
-        // Mã hóa password nếu có
-        if (vO.getPassword() != null && !vO.getPassword().isEmpty()) {
+
+        if ((!Objects.equals(vO.getPassword(), bean.getPasswordHash())) && vO.getPassword() != null && !vO.getPassword().isEmpty()) {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(vO.getPassword());
             bean.setPasswordHash(hashedPassword); // Lưu hash vào passwordHash
         }
-
-
         bean.setUpdatedAt(new Date());
         dtlUsersRepository.save(bean);
     }

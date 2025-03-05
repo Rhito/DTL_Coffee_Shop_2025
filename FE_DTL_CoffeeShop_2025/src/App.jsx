@@ -1,43 +1,95 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./components/pages/HomePage";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import DashboardPage from "./pages/DashboardPage";
+
 import LoginPage from "./components/auth/LoginPage.jsx";
 import RegisterPage from "./components/auth/RegistrationPage.jsx";
 
+import PrivateRoute from "./routes/PrivateRoute";
+
+import UsersList from "./components/dashboard/users/UsersList.jsx";
+import EditUser from "./components/dashboard/users/EditUser.jsx";
+import AddUser from "./components/dashboard/users/AddUser.jsx";
+import UserDetails from "./components/dashboard/users/UserDetails.jsx";
+import _404 from "./pages/_404.jsx";
+
+import CategoriesList from "./components/dashboard/categories/CategoriesList.jsx";
+import EditCategory from "./components/dashboard/categories/EditCategory.jsx";
+import AddCategory from "./components/dashboard/categories/AddCategory.jsx";
+import CategoryDetails from "./components/dashboard/categories/CategoryDetails.jsx";
+
+import InventoriesList from "./components/dashboard/inventory/InventoriesList.jsx";
+import AddInventory from "./components/dashboard/inventory/AddInventory.jsx";
+import EditInventory from "./components/dashboard/inventory/EditInventory.jsx";
+import InventoryDetails from "./components/dashboard/inventory/InventoryDetails.jsx";
+
 function App() {
+  const routeCRUD = [
+    {
+      path: "/users",
+      elements: {
+        list: <UsersList />,
+        create: <AddUser />,
+        edit: <EditUser />,
+        details: <UserDetails />,
+      },
+    },
+    {
+      path: "/categories",
+      elements: {
+        list: <CategoriesList />,
+        create: <AddCategory />,
+        edit: <EditCategory />,
+        details: <CategoryDetails />,
+      },
+    },
+    {
+      path: "/inventory",
+      elements: {
+        list: <InventoriesList />,
+        create: <AddInventory />,
+        edit: <EditInventory />,
+        details: <InventoryDetails />,
+      },
+    },
+    //{ path: "/orders", elements: {} },
+    // { path: "/order-details" },
+    // { path: "/products" },
+    // { path: "/promotions"},
+    // { path: "/reservations"},
+    // { path: "/tables" },
+  ];
   return (
     <BrowserRouter>
-      {/* 🟢 Đảm bảo có BrowserRouter bọc ngoài */}
       <Routes>
-        {/* 🟢 Route cho trang chủ */}
+        {/* 🟢 Route công khai */}
         <Route path="/" element={<HomePage />} />
-
-        {/* 🟢 Route cho Login */}
         <Route path="/login" element={<LoginPage />} />
-
-        {/* 🟢 Route cho Register */}
         <Route path="/register" element={<RegisterPage />} />
 
+        {/* 🔒 Route cần đăng nhập */}
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route index element={<DashboardPage />} />
+        </Route>
+
+        {routeCRUD &&
+          routeCRUD.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<PrivateRoute />}
+            >
+              <Route index element={route.elements.list} />
+              <Route path="edit/:id" element={route.elements.edit} />
+              <Route path="create" element={route.elements.create} />
+              <Route path="details/:id" element={route.elements.details} />
+            </Route>
+          ))}
+
         {/* 🟢 Xử lý khi không khớp route nào */}
-        <Route
-          path="*"
-          element={
-            <div className="flex flex-col items-center justify-center h-screen bg-gray-100 ">
-              <h1 className="text-6xl font-bold text-gray-500 mb-4 opacity-70">
-                404
-              </h1>
-              <p className="text-2xl text-gray-600 opacity-70">
-                Page Not Found
-              </p>
-              <a
-                href="/"
-                className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
-                Go Home
-              </a>
-            </div>
-          }
-        />
+        <Route path="*" element={<_404 />} />
       </Routes>
     </BrowserRouter>
   );

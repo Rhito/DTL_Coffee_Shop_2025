@@ -39,10 +39,24 @@ public class DtlCategoriesService {
     }
 
     public void update(Integer id, DtlCategoriesUpdateVO vO) {
-        DtlCategories bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean, "CategoryID");
-        bean.setUpdatedAt(new Date());
-        dtlCategoriesRepository.save(bean);
+        if (id == null) {
+            throw new IllegalArgumentException("Category ID cannot be null");
+        }
+        if (vO == null) {
+            throw new IllegalArgumentException("Update data cannot be null");
+        }
+
+        DtlCategories category = dtlCategoriesRepository.findById(id)
+                .orElseThrow(() -> {
+                    return new RuntimeException("Category not found with ID: " + id);
+                });
+
+        category.setCategoryName(vO.getCategoryName());
+        category.setDescription(vO.getDescription());
+        category.setStatus(vO.getStatus());
+        category.setUpdatedAt(new Date());
+
+        dtlCategoriesRepository.save(category);
     }
 
 
@@ -63,8 +77,6 @@ public class DtlCategoriesService {
 
         return pageResult.map(this::toDTO);
     }
-
-
 
     private DtlCategoriesDTO toDTO(DtlCategories original) {
         DtlCategoriesDTO bean = new DtlCategoriesDTO();

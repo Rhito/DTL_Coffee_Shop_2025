@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import UsersService from "../service/UsersService";
-
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import UsersService from "../../service/UsersService";
 function DashboardLayout({ children }) {
   const navigate = useNavigate();
 
@@ -11,10 +10,21 @@ function DashboardLayout({ children }) {
       !UsersService.isAuthenticated() ||
       (!UsersService.isAdmin() && !UsersService.isEmployee())
     ) {
-      alert("Page Not Found!");
       navigate("/not-found"); // Hoặc điều hướng tới trang khác nếu cần
     }
   }, [navigate]);
+
+  const navbar = [
+    { path: "/users", name: "Users" },
+    { path: "/categories", name: "Categories" },
+    { path: "/inventory", name: "Inventory" },
+    { path: "/orders", name: "Orders" },
+    { path: "/order-details", name: "Orders Details" },
+    { path: "/products", name: "Products" },
+    { path: "/promotions", name: "Promotions" },
+    { path: "/reservations", name: "Reservations" },
+    { path: "/tables", name: "Tables" },
+  ];
 
   // Xử lý đăng xuất
   const handleLogout = () => {
@@ -28,32 +38,24 @@ function DashboardLayout({ children }) {
       <div className="w-64 bg-gray-800 text-white p-6 fixed h-full">
         <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
         <ul className="space-y-4">
-          {UsersService.isAdmin() && (
-            <>
-              <li>
-                <a
-                  href="/dashboard/users"
-                  className="block hover:bg-gray-700 p-2 rounded"
+          {UsersService.isAdmin() &&
+            navbar.map((item) => (
+              <li key={item.path}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `block p-2 rounded ${
+                      isActive ? "bg-gray-700 text-white" : "hover:bg-gray-700"
+                    }`
+                  }
                 >
-                  Users
-                </a>
+                  {item.name}
+                </NavLink>
               </li>
-              <li>
-                <a
-                  href="/dashboard/categories"
-                  className="block hover:bg-gray-700 p-2 rounded"
-                >
-                  Categories
-                </a>
-              </li>
-            </>
-          )}
+            ))}
           {UsersService.isEmployee() && (
             <li>
-              <a
-                href="/dashboard/tasks"
-                className="block hover:bg-gray-700 p-2 rounded"
-              >
+              <a href="#" className="block hover:bg-gray-700 p-2 rounded">
                 Tasks
               </a>
             </li>
@@ -62,14 +64,6 @@ function DashboardLayout({ children }) {
             <a href="#" className="block hover:bg-gray-700 p-2 rounded">
               Settings
             </a>
-          </li>
-          <li>
-            <button
-              onClick={handleLogout}
-              className="w-full text-left hover:bg-red-600 p-2 rounded"
-            >
-              Logout
-            </button>
           </li>
         </ul>
       </div>
