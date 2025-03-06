@@ -12,8 +12,6 @@ public class DtlOrdersDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer orderID;
 
-    private Integer customerID;
-
     private Integer userID;
 
     private Date orderDate;

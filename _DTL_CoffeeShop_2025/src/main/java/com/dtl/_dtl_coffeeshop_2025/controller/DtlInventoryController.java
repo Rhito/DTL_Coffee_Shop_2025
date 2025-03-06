@@ -22,7 +22,7 @@ public class DtlInventoryController {
     private DtlInventoryService dtlInventoryService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // Chỉ ADMIN & STAFF được thêm hàng tồn kho
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')") // Chỉ ADMIN & EMPLOYEE được thêm hàng tồn kho
     public String save(@Valid @RequestBody DtlInventoryVO vO) {
         return dtlInventoryService.save(vO).toString();
     }
@@ -34,20 +34,20 @@ public class DtlInventoryController {
     }
 
     @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // ADMIN & STAFF có thể cập nhật
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')") // ADMIN & EMPLOYEE có thể cập nhật
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlInventoryUpdateVO vO) {
         dtlInventoryService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem chi tiết
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem chi tiết
     public DtlInventoryDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlInventoryService.getById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem danh sách
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem danh sách
     public Page<DtlInventoryDTO> query(@Valid DtlInventoryQueryVO vO) {
         return dtlInventoryService.query(vO);
     }

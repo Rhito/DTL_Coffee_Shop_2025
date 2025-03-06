@@ -1,9 +1,11 @@
 package com.dtl._dtl_coffeeshop_2025.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -26,7 +28,8 @@ public class DtlReservations implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "reservationDate", nullable = false)
-    private Date reservationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime reservationDate;
 
     @Column(name = "NumberOfGuests", nullable = false)
     private Integer numberOfGuests;

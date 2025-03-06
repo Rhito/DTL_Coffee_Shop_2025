@@ -22,7 +22,7 @@ public class DtlCategoriesController {
     private DtlCategoriesService dtlCategoriesService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // Chỉ ADMIN hoặc STAFF được thêm danh mục
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')") // Chỉ ADMIN hoặc EMPLOYEE được thêm danh mục
     public String save(@Valid @RequestBody DtlCategoriesVO vO) {
         return dtlCategoriesService.save(vO).toString();
     }
@@ -34,20 +34,20 @@ public class DtlCategoriesController {
     }
 
     @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')") // ADMIN & STAFF có thể sửa
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')") // ADMIN & EMPLOYEE có thể sửa
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlCategoriesUpdateVO vO) {
         dtlCategoriesService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')") // Tất cả đều có thể xem
     public DtlCategoriesDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlCategoriesService.getById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')") // Tất cả có thể xem danh sách
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')") // Tất cả có thể xem danh sách
     public Page<DtlCategoriesDTO> query(@Valid DtlCategoriesQueryVO vO) {
         return dtlCategoriesService.query(vO);
     }

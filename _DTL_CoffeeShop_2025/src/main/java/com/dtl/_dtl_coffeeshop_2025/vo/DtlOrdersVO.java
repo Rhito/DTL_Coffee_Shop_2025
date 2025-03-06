@@ -13,8 +13,6 @@ public class DtlOrdersVO implements Serializable {
     //@NotNull(message = "orderID can not null")
     private Integer orderID;
 
-    private Integer customerID;
-
     private Integer userID;
 
     private Date orderDate;

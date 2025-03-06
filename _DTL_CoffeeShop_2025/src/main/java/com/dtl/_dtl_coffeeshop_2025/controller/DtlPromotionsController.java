@@ -22,7 +22,7 @@ public class DtlPromotionsController {
     private DtlPromotionsService dtlPromotionsService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
     // Chỉ ADMIN & STAFF có thể thêm khuyến mãi
     public String save(@Valid @RequestBody DtlPromotionsVO vO) {
         return dtlPromotionsService.save(vO).toString();

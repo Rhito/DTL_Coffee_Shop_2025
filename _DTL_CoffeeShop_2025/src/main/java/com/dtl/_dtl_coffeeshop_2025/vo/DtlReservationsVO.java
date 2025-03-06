@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class DtlReservationsVO implements Serializable {
@@ -19,8 +19,8 @@ public class DtlReservationsVO implements Serializable {
     private Integer tableID;
 
     @NotNull(message = "reservationDate can not null")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date reservationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime reservationDate;
 
     @NotNull(message = "numberOfGuests can not null")
     private Integer numberOfGuests;

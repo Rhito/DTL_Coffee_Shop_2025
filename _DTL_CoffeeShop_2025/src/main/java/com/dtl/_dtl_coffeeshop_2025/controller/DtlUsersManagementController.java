@@ -17,7 +17,6 @@ public class DtlUsersManagementController {
     @PostMapping("/register")
     public ResponseEntity<DtlUsersDTO> registerUser(@RequestBody DtlUsersDTO registrationRequest) {
         DtlUsersDTO response = dtlUsersManagementService.registerUser(registrationRequest);
-
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

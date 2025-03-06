@@ -1,9 +1,11 @@
 package com.dtl._dtl_coffeeshop_2025.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,7 +17,8 @@ public class DtlReservationsDTO implements Serializable {
 
     private Integer tableID;
 
-    private Date reservationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime reservationDate;
 
     private Integer numberOfGuests;
 

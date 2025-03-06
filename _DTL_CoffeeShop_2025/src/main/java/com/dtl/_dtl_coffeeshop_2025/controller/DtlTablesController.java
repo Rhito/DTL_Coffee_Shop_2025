@@ -36,23 +36,23 @@ public class DtlTablesController {
     }
 
     @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // ADMIN & STAFF có thể cập nhật thông tin bàn (trạng thái, vị trí,...)
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // ADMIN & EMPLOYEE có thể cập nhật thông tin bàn (trạng thái, vị trí,...)
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlTablesUpdateVO vO) {
         dtlTablesService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // ADMIN & STAFF có thể xem chi tiết từng bàn
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // ADMIN & EMPLOYEE có thể xem chi tiết từng bàn
     public DtlTablesDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlTablesService.getById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
-    // - ADMIN & STAFF xem tất cả bàn
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')")
+    // - ADMIN & EMPLOYEE xem tất cả bàn
     // - CUSTOMER chỉ xem bàn trống
     public Page<DtlTablesDTO> query(@Valid DtlTablesQueryVO vO) {
         return dtlTablesService.query(vO);

@@ -16,8 +16,6 @@ public class DtlOrdersQueryVO implements Serializable {
 
     private Integer orderID;
 
-    private Integer customerID;
-
     private Integer userID;
 
     private Date orderDate;

@@ -19,9 +19,6 @@ public class DtlOrders implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderID;
 
-    @Column(name = "CustomerID")
-    private Integer customerID;
-
     @Column(name = "UserID")
     private Integer userID;
 

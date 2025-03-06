@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -22,9 +24,9 @@ public class DtlPromotionsQueryVO implements Serializable {
 
     private BigDecimal discountRate;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
     private String status;
 

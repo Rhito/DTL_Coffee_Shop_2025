@@ -29,30 +29,30 @@ public class DtlOrdersController {
     }
 
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể xóa đơn hàng
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // Chỉ ADMIN & EMPLOYEE có thể xóa đơn hàng
     public void delete(@Valid @NotNull @PathVariable("id") Integer id) {
         dtlOrdersService.delete(id);
     }
 
     @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể cập nhật đơn hàng
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // Chỉ ADMIN & EMPLOYEE có thể cập nhật đơn hàng
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlOrdersUpdateVO vO) {
         dtlOrdersService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
-    // ADMIN, STAFF & CUSTOMER có thể xem chi tiết đơn hàng
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')")
+    // ADMIN, EMPLOYEE & CUSTOMER có thể xem chi tiết đơn hàng
     public DtlOrdersDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlOrdersService.getById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể xem danh sách đơn hàng
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // Chỉ ADMIN & EMPLOYEE có thể xem danh sách đơn hàng
     public Page<DtlOrdersDTO> query(@Valid DtlOrdersQueryVO vO) {
         return dtlOrdersService.query(vO);
     }

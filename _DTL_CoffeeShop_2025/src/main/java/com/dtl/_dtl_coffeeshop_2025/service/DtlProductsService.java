@@ -1,20 +1,28 @@
 package com.dtl._dtl_coffeeshop_2025.service;
 
-import com.dtl._dtl_coffeeshop_2025.dto.DtlOrdersDTO;
 import com.dtl._dtl_coffeeshop_2025.dto.DtlProductsDTO;
-import com.dtl._dtl_coffeeshop_2025.model.DtlOrders;
 import com.dtl._dtl_coffeeshop_2025.model.DtlProducts;
 import com.dtl._dtl_coffeeshop_2025.repository.DtlProductsRepository;
-import com.dtl._dtl_coffeeshop_2025.vo.*;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsQueryVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsUpdateVO;
+import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class DtlProductsService {
@@ -22,21 +30,50 @@ public class DtlProductsService {
     @Autowired
     private DtlProductsRepository dtlProductsRepository;
 
-    public Integer save(DtlProductsVO vO) {
+    @Value("${file.upload-dir}")
+    private String UPLOAD_DIR;
+
+    public DtlProductsDTO save(DtlProductsVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = new DtlProducts();
-        BeanUtils.copyProperties(vO, bean);
+        BeanUtils.copyProperties(vo, bean);
+        if (file != null && !file.isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            Path uploadPath = Paths.get(UPLOAD_DIR, fileName);
+            Files.createDirectories(uploadPath.getParent()); // Tạo thư mục nếu chưa tồn tại
+            Files.write(uploadPath, file.getBytes());
+            bean.setImageURL("/images/" + fileName); // Đường dẫn tương đối để frontend truy cập
+        }
+        bean.setCreatedAt(new Date());
+        bean.setUpdatedAt(new Date());
         bean = dtlProductsRepository.save(bean);
-        return bean.getProductID();
+        return toDTO(bean);
+    }
+
+    public DtlProductsDTO save(DtlProducts product) { // Giữ lại để tương thích nếu cần
+        product.setCreatedAt(new Date());
+        product.setUpdatedAt(new Date());
+        product = dtlProductsRepository.save(product);
+        return toDTO(product);
     }
 
     public void delete(Integer id) {
-        dtlProductsRepository.deleteById(id);
+        DtlProducts product = requireOne(id);
+        dtlProductsRepository.delete(product);
     }
 
-    public void update(Integer id, DtlProductsUpdateVO vO) {
+    public DtlProductsDTO update(Integer id, DtlProductsUpdateVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = requireOne(id);
-        BeanUtils.copyProperties(vO, bean, "productID");
-        dtlProductsRepository.save(bean);
+        BeanUtils.copyProperties(vo, bean);
+        if (file != null && !file.isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            Path uploadPath = Paths.get(UPLOAD_DIR, fileName);
+            Files.createDirectories(uploadPath.getParent());
+            Files.write(uploadPath, file.getBytes());
+            bean.setImageURL("/images/" + fileName);
+        }
+        bean.setUpdatedAt(new Date());
+        bean = dtlProductsRepository.save(bean);
+        return toDTO(bean);
     }
 
     public DtlProductsDTO getById(Integer id) {
@@ -44,12 +81,13 @@ public class DtlProductsService {
         return toDTO(original);
     }
 
-    public Page<DtlProductsDTO> query(DtlProductsQueryVO vO) {
-        Pageable pageable = PageRequest.of(vO.getPage(), vO.getSize(), Sort.by("ProductID").ascending());
-
-        Page<DtlProducts> page = dtlProductsRepository.findAll(pageable);
-
-        return page.map(this::toDTO);
+    public Page<DtlProductsDTO> query(DtlProductsQueryVO vo) {
+        Pageable pageable = PageRequest.of(vo.getPage(), vo.getSize(), Sort.by("productID").ascending());
+        if (vo.getProductName() != null && !vo.getProductName().isEmpty()) {
+            return dtlProductsRepository.findByProductNameContainingIgnoreCase(vo.getProductName(), pageable)
+                    .map(this::toDTO);
+        }
+        return dtlProductsRepository.findAll(pageable).map(this::toDTO);
     }
 
     private DtlProductsDTO toDTO(DtlProducts original) {
@@ -60,6 +98,6 @@ public class DtlProductsService {
 
     private DtlProducts requireOne(Integer id) {
         return dtlProductsRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Product not found: " + id));
     }
 }

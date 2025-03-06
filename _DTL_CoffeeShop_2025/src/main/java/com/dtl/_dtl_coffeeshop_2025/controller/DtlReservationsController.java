@@ -29,30 +29,30 @@ public class DtlReservationsController {
     }
 
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể xóa đặt chỗ
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // Chỉ ADMIN & EMPLOYEE có thể xóa đặt chỗ
     public void delete(@Valid @NotNull @PathVariable("id") Integer id) {
         dtlReservationsService.delete(id);
     }
 
     @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể cập nhật đặt chỗ
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    // Chỉ ADMIN & EMPLOYEE có thể cập nhật đặt chỗ
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
                        @Valid @RequestBody DtlReservationsUpdateVO vO) {
         dtlReservationsService.update(id, vO);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')")
     // Tất cả các vai trò có thể xem chi tiết đặt chỗ
     public DtlReservationsDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return dtlReservationsService.getById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
-    // - ADMIN & STAFF có thể xem tất cả đặt chỗ
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('CUSTOMER')")
+    // - ADMIN & EMPLOYEE có thể xem tất cả đặt chỗ
     // - CUSTOMER chỉ có thể xem đặt chỗ của chính mình
     public Page<DtlReservationsDTO> query(@Valid DtlReservationsQueryVO vO) {
         return dtlReservationsService.query(vO);

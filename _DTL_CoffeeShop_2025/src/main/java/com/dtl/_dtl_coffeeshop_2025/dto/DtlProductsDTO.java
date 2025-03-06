@@ -24,6 +24,8 @@ public class DtlProductsDTO implements Serializable {
 
     private Date createdAt;
 
+    private Date updatedAt;
+
     private String status;
 
 }

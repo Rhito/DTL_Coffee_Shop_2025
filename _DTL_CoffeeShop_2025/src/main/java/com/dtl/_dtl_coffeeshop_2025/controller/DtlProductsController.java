@@ -8,10 +8,19 @@ import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsVO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Validated
 @RestController
@@ -21,39 +30,40 @@ public class DtlProductsController {
     @Autowired
     private DtlProductsService dtlProductsService;
 
-    @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể thêm sản phẩm
-    public String save(@Valid @RequestBody DtlProductsVO vO) {
-        return dtlProductsService.save(vO).toString();
+    @PostMapping(consumes = {"multipart/form-data"})
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public ResponseEntity<DtlProductsDTO> save(
+            @Valid @RequestPart("product") DtlProductsVO vO,
+            @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        DtlProductsDTO createdProduct = dtlProductsService.save(vO, file);
+        return ResponseEntity.ok(createdProduct);
     }
 
-    @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    // Chỉ ADMIN có thể xóa sản phẩm
-    public void delete(@Valid @NotNull @PathVariable("id") Integer id) {
-        dtlProductsService.delete(id);
-    }
-
-    @PutMapping("edit/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
-    // Chỉ ADMIN & STAFF có thể cập nhật sản phẩm
-    public void update(@Valid @NotNull @PathVariable("id") Integer id,
-                       @Valid @RequestBody DtlProductsUpdateVO vO) {
-        dtlProductsService.update(id, vO);
+    @PutMapping(value = "edit/{id}", consumes = {"multipart/form-data"})
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public ResponseEntity<DtlProductsDTO> update(
+            @Valid @NotNull @PathVariable("id") Integer id,
+            @Valid @RequestPart("product") DtlProductsUpdateVO vO,
+            @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        DtlProductsDTO updatedProduct = dtlProductsService.update(id, vO, file);
+        return ResponseEntity.ok(updatedProduct);
     }
 
     @GetMapping("show/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
-    // Tất cả các vai trò (ADMIN, STAFF, CUSTOMER) đều có thể xem chi tiết sản phẩm
-    public DtlProductsDTO getById(@Valid @NotNull @PathVariable("id") Integer id) {
-        return dtlProductsService.getById(id);
+    public ResponseEntity<DtlProductsDTO> getById(@Valid @NotNull @PathVariable("id") Integer id) {
+        return ResponseEntity.ok(dtlProductsService.getById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('CUSTOMER')")
-    // Tất cả các vai trò đều có thể xem danh sách sản phẩm
-    public Page<DtlProductsDTO> query(@Valid DtlProductsQueryVO vO) {
-        return dtlProductsService.query(vO);
+    public ResponseEntity<Page<DtlProductsDTO>> query(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) String productName) {
+        DtlProductsQueryVO vO = new DtlProductsQueryVO();
+        vO.setPage(page);
+        vO.setSize(size);
+        vO.setProductName(productName);
+        Page<DtlProductsDTO> products = dtlProductsService.query(vO);
+        return ResponseEntity.ok(products);
     }
 }
