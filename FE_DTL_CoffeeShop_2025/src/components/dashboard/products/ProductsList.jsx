@@ -18,10 +18,10 @@ function ProductsList() {
     setError(null);
     try {
       const data = await ProductsService.getProducts();
-      setProducts(data.content || data);
+      setProducts(data.content || data); // Hỗ trợ dữ liệu phân trang hoặc không
       setLoading(false);
     } catch (err) {
-      setError(err || "Failed to fetch products");
+      setError(err.message || "Failed to fetch products");
       setLoading(false);
     }
   };
@@ -35,7 +35,7 @@ function ProductsList() {
         setProducts(products.filter((product) => product.productID !== productId));
         setLoading(false);
       } catch (err) {
-        setError(err || "Failed to delete product");
+        setError(err.message || "Failed to delete product");
         setLoading(false);
       }
     }
@@ -63,6 +63,9 @@ function ProductsList() {
                   ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Image
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -83,6 +86,18 @@ function ProductsList() {
               {products.map((product) => (
                 <tr key={product.productID}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.productID}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {product.imageURL ? (
+                      <img
+                        src={`http://localhost:8080${product.imageURL}`} // Đường dẫn đầy đủ tới ảnh
+                        alt={product.productName}
+                        className="h-16 w-16 object-cover rounded-md"
+                        onError={(e) => (e.target.src = "/fallback-image.jpg")} // Ảnh dự phòng nếu lỗi
+                      />
+                    ) : (
+                      <span>No Image</span>
+                    )}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.productName}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.categoryID}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.price}</td>

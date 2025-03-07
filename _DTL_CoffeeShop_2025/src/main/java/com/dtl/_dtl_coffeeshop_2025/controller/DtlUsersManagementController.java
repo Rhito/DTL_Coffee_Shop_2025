@@ -24,7 +24,7 @@ public class DtlUsersManagementController {
     @PostMapping("/login")
     public ResponseEntity<DtlUsersDTO> login(@RequestBody DtlUsersDTO loginRequest) {
         DtlUsersDTO response = dtlUsersManagementService.login(loginRequest);
-        System.out.println(response);
+        //System.out.println(response);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

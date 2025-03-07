@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -31,50 +29,85 @@ public class DtlProductsService {
     private DtlProductsRepository dtlProductsRepository;
 
     @Value("${file.upload-dir}")
-    private String UPLOAD_DIR;
+    private String uploadDir;
 
     public DtlProductsDTO save(DtlProductsVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = new DtlProducts();
         BeanUtils.copyProperties(vo, bean);
+
         if (file != null && !file.isEmpty()) {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Path uploadPath = Paths.get(UPLOAD_DIR, fileName);
-            Files.createDirectories(uploadPath.getParent()); // Tạo thư mục nếu chưa tồn tại
+            Path uploadPath = Paths.get(uploadDir, fileName);
+            Files.createDirectories(uploadPath.getParent());
             Files.write(uploadPath, file.getBytes());
-            bean.setImageURL("/images/" + fileName); // Đường dẫn tương đối để frontend truy cập
+            bean.setImageURL("/images/" + fileName);
         }
+
         bean.setCreatedAt(new Date());
         bean.setUpdatedAt(new Date());
         bean = dtlProductsRepository.save(bean);
         return toDTO(bean);
     }
 
-    public DtlProductsDTO save(DtlProducts product) { // Giữ lại để tương thích nếu cần
-        product.setCreatedAt(new Date());
-        product.setUpdatedAt(new Date());
-        product = dtlProductsRepository.save(product);
-        return toDTO(product);
-    }
-
     public void delete(Integer id) {
         DtlProducts product = requireOne(id);
+
+        // Xóa file ảnh nếu tồn tại
+        if (product.getImageURL() != null) {
+            String filePath = uploadDir + product.getImageURL();
+            filePath = filePath.replace("/images/", "");
+            try {
+                Path path = Paths.get(filePath);
+                if (Files.exists(path)) {
+                    Files.delete(path);  // Xóa file
+                    System.out.println("Đã xóa file: " + filePath);
+                } else {
+                    System.out.println("Không tìm thấy file: " + filePath);
+                }
+            } catch (IOException e) {
+                System.out.println("Lỗi khi xóa file: " + e.getMessage());
+            }
+        }
+
+        // Xóa sản phẩm trong database
         dtlProductsRepository.delete(product);
     }
 
+
     public DtlProductsDTO update(Integer id, DtlProductsUpdateVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = requireOne(id);
-        BeanUtils.copyProperties(vo, bean);
+        BeanUtils.copyProperties(vo, bean, "productID");
+
+        // Xử lý xóa file cũ nếu có
         if (file != null && !file.isEmpty()) {
+            String oldPath = uploadDir + bean.getImageURL();
+            System.out.println("Old file path: " + oldPath);
+
+            try {
+                Path filePath = Paths.get(oldPath);
+                if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
+                    Files.delete(filePath);  // Xóa file nếu tồn tại và không phải là thư mục
+                    System.out.println("Deleted old file: " + oldPath);
+                } else {
+                    System.out.println("Old file not found or is a directory: " + oldPath);
+                }
+            } catch (IOException e) {
+                System.out.println("Error deleting old file: " + e.getMessage());
+            }
+
+            // Upload file mới
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Path uploadPath = Paths.get(UPLOAD_DIR, fileName);
-            Files.createDirectories(uploadPath.getParent());
+            Path uploadPath = Paths.get(uploadDir, fileName);
+            Files.createDirectories(uploadPath.getParent());  // Tạo thư mục nếu chưa có
             Files.write(uploadPath, file.getBytes());
-            bean.setImageURL("/images/" + fileName);
+            bean.setImageURL("/images/" + fileName);  // Cập nhật URL của file mới
         }
+
         bean.setUpdatedAt(new Date());
         bean = dtlProductsRepository.save(bean);
         return toDTO(bean);
     }
+
 
     public DtlProductsDTO getById(Integer id) {
         DtlProducts original = requireOne(id);

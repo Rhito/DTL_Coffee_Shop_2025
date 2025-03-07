@@ -9,9 +9,9 @@ function AddProduct() {
     categoryID: "",
     description: "",
     price: "",
-    imageURL: "",
     status: "Active",
   });
+  const [file, setFile] = useState(null); // Thêm state riêng cho file
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -20,8 +20,18 @@ function AddProduct() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "categoryID" ? parseInt(value) || "" : name === "price" ? parseFloat(value) || "" : value,
+      [name]:
+        name === "categoryID"
+          ? parseInt(value) || ""
+          : name === "price"
+          ? parseFloat(value) || ""
+          : value,
     }));
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0]; // Lấy file đầu tiên từ input
+    setFile(selectedFile); // Lưu file vào state
   };
 
   const handleSubmit = async (e) => {
@@ -29,11 +39,11 @@ function AddProduct() {
     setLoading(true);
     setError(null);
     try {
-      await ProductsService.addProduct(formData);
+      await ProductsService.addProduct(formData, file); // Gửi formData và file riêng biệt
       navigate("/products");
       setLoading(false);
     } catch (err) {
-      setError(err || "Failed to add product");
+      setError(err.message || "Failed to add product");
       setLoading(false);
     }
   };
@@ -90,14 +100,12 @@ function AddProduct() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Image URL</label>
+            <label className="block text-sm font-medium text-gray-700">Product Image</label>
             <input
-              type="text"
-              name="imageURL"
-              value={formData.imageURL}
-              onChange={handleInputChange}
+              type="file"
+              name="imageFile" // Đổi tên để rõ ràng hơn
+              onChange={handleFileChange} // Sử dụng hàm riêng cho file
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter image URL"
             />
           </div>
           <div>

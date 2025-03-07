@@ -22,7 +22,7 @@ function ProductDetails() {
         setProduct(data);
         setLoading(false);
       } catch (err) {
-        setError(err || "Failed to fetch product details");
+        setError(err.message || "Failed to fetch product details");
         setLoading(false);
       }
     };
@@ -54,16 +54,57 @@ function ProductDetails() {
         {loading && <p className="text-gray-500">Loading...</p>}
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {!loading && !error && product && (
-          <div className="space-y-4">
-            <p><strong>ID:</strong> {product.productID}</p>
-            <p><strong>Name:</strong> {product.productName}</p>
-            <p><strong>Category ID:</strong> {product.categoryID || "N/A"}</p>
-            <p><strong>Description:</strong> {product.description || "N/A"}</p>
-            <p><strong>Price:</strong> {product.price}</p>
-            <p><strong>Image URL:</strong> {product.imageURL || "N/A"}</p>
-            <p><strong>Status:</strong> {product.status}</p>
-            <p><strong>Created At:</strong> {new Date(product.createdAt).toLocaleString()}</p>
-            <p><strong>Updated At:</strong> {new Date(product.updatedAt).toLocaleString()}</p>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Thông tin văn bản */}
+              <div className="space-y-4">
+                <p>
+                  <strong>ID:</strong> {product.productID}
+                </p>
+                <p>
+                  <strong>Name:</strong> {product.productName}
+                </p>
+                <p>
+                  <strong>Category ID:</strong> {product.categoryID || "N/A"}
+                </p>
+                <p>
+                  <strong>Description:</strong> {product.description || "N/A"}
+                </p>
+                <p>
+                  <strong>Price:</strong> ${product.price.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Status:</strong>{" "}
+                  <span
+                    className={`inline-block px-2 py-1 rounded-md text-white ${
+                      product.status === "Active" ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  >
+                    {product.status}
+                  </span>
+                </p>
+                <p>
+                  <strong>Created At:</strong> {new Date(product.createdAt).toLocaleString()}
+                </p>
+                <p>
+                  <strong>Updated At:</strong> {new Date(product.updatedAt).toLocaleString()}
+                </p>
+              </div>
+              {/* Hiển thị ảnh */}
+              <div className="flex justify-center items-center">
+                {product.imageURL ? (
+                  <img
+                    src={`http://localhost:8080${product.imageURL}`}
+                    alt={product.productName}
+                    className="max-w-full h-64 object-cover rounded-md shadow-sm"
+                    onError={(e) => (e.target.src = "/fallback-image.jpg")}
+                  />
+                ) : (
+                  <p className="text-gray-500">No image available</p>
+                )}
+              </div>
+            </div>
+            {/* Nút điều hướng */}
             <div className="flex space-x-4 mt-6">
               <button
                 onClick={handleEdit}
