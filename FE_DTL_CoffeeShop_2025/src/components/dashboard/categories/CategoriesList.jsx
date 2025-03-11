@@ -87,7 +87,7 @@ function CategoriesList() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {category.categoryName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 max-w-2xl overflow-hidden py-4 whitespace-nowrap text-sm text-gray-900">
                     {category.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

@@ -83,7 +83,7 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map((product) => (
+              {products.map((product) => ( product.status === "ACTIVE" && (
                 <tr key={product.productID}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.productID}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -123,7 +123,7 @@ function ProductsList() {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         )}

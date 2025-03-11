@@ -27,7 +27,7 @@ function AddCategory() {
       navigate("/categories");
       setLoading(false);
     } catch (err) {
-      setError(err.message || "Failed to add category");
+      setError(err || "Failed to add category");
       setLoading(false);
     }
   };

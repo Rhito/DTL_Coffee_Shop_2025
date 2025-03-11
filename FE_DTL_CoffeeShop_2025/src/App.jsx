@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
 
 import _404 from "./pages/_404.jsx";
 import HomePage from "./pages/HomePage";
@@ -55,6 +56,8 @@ import AddTable from "./components/dashboard/tables/AddTable.jsx";
 import EditTable from "./components/dashboard/tables/EditTable.jsx";
 import TableDetails from "./components/dashboard/tables/TableDetails.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
+import ProductDetailPage from "./pages/ProductDetailPage.jsx";
 
 function App() {
   const routeCRUD = [
@@ -141,35 +144,31 @@ function App() {
     },
   ];
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 🟢 Route công khai */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={localStorage.clear()} />
-        <Route path="/register" element={<RegisterPage />} />
-
-        {/* 🔒 Route cần đăng nhập */}
-        <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route index element={<DashboardPage />} />
-        </Route>
-
-        {/* Dynamic CRUD Routes */}
-        {routeCRUD.map((route) => (
-          <Route key={route.path} path={route.path} element={<PrivateRoute />}>
-            <Route index element={route.elements.list} />
-            <Route path="edit/:id" element={route.elements.edit} />
-            <Route path="create" element={route.elements.create} />
-            <Route path="details/:id" element={route.elements.details} />
+    <CartProvider> {/* Bọc ứng dụng trong CartProvider */}
+      <BrowserRouter>
+        <Routes>
+          {/* Các route giữ nguyên */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/product-detail/:productId" element={<ProductDetailPage />} />
+          <Route path="/dashboard" element={<PrivateRoute />}>
+            <Route index element={<DashboardPage />} />
           </Route>
-        ))}
-
-        <Route path="/product-page" element={<ProductPage />} />
-
-        {/* 🟢 Xử lý khi không khớp route nào */}
-        <Route path="*" element={<_404 />} />
-      </Routes>
-    </BrowserRouter>
+          {routeCRUD.map((route) => (
+            <Route key={route.path} path={route.path} element={<PrivateRoute />}>
+              <Route index element={route.elements.list} />
+              <Route path="edit/:id" element={route.elements.edit} />
+              <Route path="create" element={route.elements.create} />
+              <Route path="details/:id" element={route.elements.details} />
+            </Route>
+          ))}
+          <Route path="/product-page" element={<ProductPage />} />
+          <Route path="*" element={<_404 />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

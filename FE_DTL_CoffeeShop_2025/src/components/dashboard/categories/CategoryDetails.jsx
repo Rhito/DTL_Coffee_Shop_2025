@@ -46,7 +46,7 @@ function CategoryDetails() {
 
   return (
     <DashboardLayout>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full md:w-1/2">
         <h2 className="text-xl font-semibold mb-4">Category Details</h2>
         {loading && <p className="text-gray-500">Loading...</p>}
         {error && <p className="text-red-500 mb-4">{error}</p>}

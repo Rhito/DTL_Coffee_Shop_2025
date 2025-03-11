@@ -70,6 +70,9 @@ function DashboardLayout({ children }) {
           <h1 className="text-2xl font-bold text-gray-800">
             Coffee Shop Dashboard
           </h1>
+          <a href="/" className="font-bold text-gray-600">
+            To Home Page
+          </a>
           <div className="flex items-center space-x-4">
             <span className="text-gray-600">
               Welcome, {UsersService.isAdmin() ? "Admin" : "Employee"}

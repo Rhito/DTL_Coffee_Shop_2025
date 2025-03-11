@@ -76,23 +76,24 @@ public class DtlProductsService {
 
     public DtlProductsDTO update(Integer id, DtlProductsUpdateVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = requireOne(id);
-        BeanUtils.copyProperties(vo, bean, "productID");
 
-        // Xử lý xóa file cũ nếu có
         if (file != null && !file.isEmpty()) {
-            String oldPath = uploadDir + bean.getImageURL();
-            System.out.println("Old file path: " + oldPath);
-
-            try {
-                Path filePath = Paths.get(oldPath);
-                if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
-                    Files.delete(filePath);  // Xóa file nếu tồn tại và không phải là thư mục
-                    System.out.println("Deleted old file: " + oldPath);
-                } else {
-                    System.out.println("Old file not found or is a directory: " + oldPath);
+            // Xóa file ảnh nếu tồn tại
+            if (bean.getImageURL() != null) {
+                String filePath = uploadDir + bean.getImageURL();
+                filePath = filePath.replace("/images/", "");
+                try {
+                    Path path = Paths.get(filePath);
+                    if (Files.exists(path)) {
+                        Files.delete(path);  // Xóa file
+                        System.out.println("Đã xóa file: " + filePath);
+                    } else {
+                        System.out.println("Không tìm thấy file: " + filePath);
+                    }
+                    BeanUtils.copyProperties(vo, bean, "productID");
+                } catch (IOException e) {
+                    System.out.println("Lỗi khi xóa file: " + e.getMessage());
                 }
-            } catch (IOException e) {
-                System.out.println("Error deleting old file: " + e.getMessage());
             }
 
             // Upload file mới
