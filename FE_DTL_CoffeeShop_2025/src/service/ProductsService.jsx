@@ -52,27 +52,40 @@ class ProductsService {
 
   static async editProduct(productId, productData, file) {
     if (!productId) throw new Error("Product ID is required");
+  
     try {
       const formData = new FormData();
-      formData.append("product", new Blob([JSON.stringify(productData)], { type: "application/json" }));
-      if (file) {
-        console.log("File to upload:", file.name, file); // Debug file
-        formData.append("file", file);
+  
+      if (productData && Object.keys(productData).length > 0) {
+        formData.append("product", new File([JSON.stringify(productData)], "product.json", { type: "application/json" }));
+      } else {
+        console.warn("productData is empty!");
       }
-
+  
+      if (file) {
+        formData.append("file", file);
+      } else {
+        console.log("No file uploaded");
+      }
+  
+      // Log dữ liệu FormData
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+  
       const response = await api.put(`/products/edit/${productId}`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data", // Không cần thay đổi, FormData sẽ tự động xử lý
         },
       });
-      console.log("Response from server:", response.data); // Debug response
+  
       return response.data;
     } catch (error) {
-      console.error("Update product failed:", error?.response?.data?.message || error.message);
+      console.error("Update product failed:", error?.response?.data || error.message);
       throw error?.response?.data || error;
     }
   }
-
+  
   static async deleteProduct(productId) {
     if (!productId) throw new Error("Product ID is required");
     try {

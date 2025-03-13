@@ -1,10 +1,13 @@
 package com.dtl._dtl_coffeeshop_2025.vo;
 
 
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -18,7 +21,8 @@ public class DtlOrdersQueryVO implements Serializable {
 
     private Integer userID;
 
-    private Date orderDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime orderDate;
 
     private BigDecimal totalAmount;
 

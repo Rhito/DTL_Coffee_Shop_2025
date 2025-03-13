@@ -56,7 +56,7 @@ function ProductPage() {
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => (
+            {products.map((product) => (product.status =="Active") && (
               <div
                 key={product.productID}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative group h-96"

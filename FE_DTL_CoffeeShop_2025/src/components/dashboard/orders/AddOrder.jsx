@@ -6,6 +6,7 @@ import DashboardLayout from "../../layout/DashboardLayout";
 function AddOrder() {
   const [formData, setFormData] = useState({
     userID: "",
+    orderDate: new Date(),
     totalAmount: "",
     status: "Pending",
     notes: "",
@@ -19,7 +20,7 @@ function AddOrder() {
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "customerID" || name === "userID"
+        name === "userID"
           ? parseInt(value) || ""
           : name === "totalAmount"
           ? parseFloat(value) || ""
@@ -32,11 +33,18 @@ function AddOrder() {
     setLoading(true);
     setError(null);
     try {
-      await OrdersService.addOrder(formData);
+      // Format the data to match backend expectations
+      const orderData = {
+        ...formData,
+        userID: Number(formData.userID),
+        totalAmount: Number(formData.totalAmount),
+        orderDate: new Date(formData.orderDate),
+      };
+      await OrdersService.addOrder(orderData);
       navigate("/orders");
-      setLoading(false);
     } catch (err) {
-      setError(err || "Failed to add order");
+      setError(err.message || "Failed to add order");
+    } finally {
       setLoading(false);
     }
   };
@@ -58,6 +66,19 @@ function AddOrder() {
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter user ID"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Order Date
+            </label>
+            <input
+              type="datetime-local"
+              name="orderDate"
+              value={formData.orderDate}
+              onChange={handleInputChange}
+              required
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>

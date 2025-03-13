@@ -18,6 +18,7 @@ function ProductsList() {
     setError(null);
     try {
       const data = await ProductsService.getProducts();
+      
       setProducts(data.content || data); // Hỗ trợ dữ liệu phân trang hoặc không
       setLoading(false);
     } catch (err) {
@@ -83,7 +84,7 @@ function ProductsList() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map((product) => ( product.status === "ACTIVE" && (
+              {products.map((product) =>(
                 <tr key={product.productID}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.productID}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -123,7 +124,7 @@ function ProductsList() {
                     </button>
                   </td>
                 </tr>
-              )))}
+              ))}
             </tbody>
           </table>
         )}

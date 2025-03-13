@@ -57,7 +57,7 @@ function EditOrderDetail() {
     setError(null);
     try {
       await OrderDetailsService.editOrderDetail(id, formData);
-      navigate("/orderdetails");
+      navigate("/order-details");
       setLoading(false);
     } catch (err) {
       setError(err.message || "Failed to update order detail");
@@ -158,7 +158,7 @@ function EditOrderDetail() {
               </button>
               <button
                 type="button"
-                onClick={() => navigate("/orderdetails")}
+                onClick={() => navigate("/order-details")}
                 className="w-full py-2 px-4 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-200"
               >
                 Cancel

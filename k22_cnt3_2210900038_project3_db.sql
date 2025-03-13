@@ -1,9 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `dtl_coffeeshop_2025` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `dtl_coffeeshop_2025`;
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: dtl_coffeeshop_2025
 -- ------------------------------------------------------
 -- Server version	8.0.40
-CREATE DATABASE IF NOT EXISTS `dtl_coffeeshop_2025`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +33,7 @@ CREATE TABLE `dtl_categories` (
   `Status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`CategoryID`),
   UNIQUE KEY `CategoryName` (`CategoryName`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `dtl_categories` (
 
 LOCK TABLES `dtl_categories` WRITE;
 /*!40000 ALTER TABLE `dtl_categories` DISABLE KEYS */;
-INSERT INTO `dtl_categories` VALUES (1,'Cà phê 127','Các loại cà phê truyền thống và đặc biệt','2025-02-26 21:07:35','2025-03-05 07:19:02','Inactive'),(2,'Trà','Các loại trà thơm ngon','2025-02-26 21:07:35','2025-02-26 21:07:35','Active');
+INSERT INTO `dtl_categories` VALUES (4,'Espresso','This is a very popular coffee in Italy and Spain. To get a cup of “genuine” Espresso, people have to roast those dark coffee beans and grind them very finely, then process them by using hot water compressed under high pressure. ','2025-03-07 19:09:29','2025-03-07 19:09:29','Active'),(5,'	Mocha Coffee','Mocha has a strong coffee flavor, a distinctive chocolate aroma and sometimes a hint of milk sweetness.','2025-03-08 09:54:35','2025-03-08 09:54:47','Active'),(6,'Latte','Latte has a light, soft coffee flavor, combined with the aroma of steamed milk and a layer of smooth milk foam.','2025-03-08 09:55:34','2025-03-08 09:55:34','Active'),(7,'Americano','Americano has a strong coffee flavor, similar to espresso but more diluted, without chocolate or milk.','2025-03-08 09:56:35','2025-03-08 09:56:35','Active'),(8,'Cappuccino','Cappuccino is a rich coffee drink, combining espresso, steamed milk and a generous layer of milk foam. It usually has a distinct coffee aroma and a light milky aroma.','2025-03-08 09:57:14','2025-03-08 09:57:14','Active');
 /*!40000 ALTER TABLE `dtl_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `dtl_inventory` (
   UNIQUE KEY `ProductID` (`ProductID`),
   CONSTRAINT `dtl_inventory_ibfk_1` FOREIGN KEY (`ProductID`) REFERENCES `dtl_products` (`ProductID`) ON DELETE CASCADE,
   CONSTRAINT `dtl_inventory_chk_1` CHECK ((`Quantity` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +100,7 @@ CREATE TABLE `dtl_orderdetails` (
   CONSTRAINT `dtl_orderdetails_chk_1` CHECK ((`Quantity` > 0)),
   CONSTRAINT `dtl_orderdetails_chk_2` CHECK ((`UnitPrice` >= 0)),
   CONSTRAINT `dtl_orderdetails_chk_3` CHECK ((`Discount` between 0 and 100))
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,6 +109,7 @@ CREATE TABLE `dtl_orderdetails` (
 
 LOCK TABLES `dtl_orderdetails` WRITE;
 /*!40000 ALTER TABLE `dtl_orderdetails` DISABLE KEYS */;
+INSERT INTO `dtl_orderdetails` VALUES (9,1,46,12,12.00,1.00,32.00,'2025-03-13 07:39:58','2025-03-13 07:39:58'),(10,1,48,1,1.00,1.00,1.00,'2025-03-13 07:43:55','2025-03-13 07:43:55');
 /*!40000 ALTER TABLE `dtl_orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +133,7 @@ CREATE TABLE `dtl_orders` (
   KEY `UserID` (`UserID`),
   CONSTRAINT `dtl_orders_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `dtl_users` (`UserID`) ON DELETE SET NULL,
   CONSTRAINT `dtl_orders_chk_1` CHECK ((`TotalAmount` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +142,7 @@ CREATE TABLE `dtl_orders` (
 
 LOCK TABLES `dtl_orders` WRITE;
 /*!40000 ALTER TABLE `dtl_orders` DISABLE KEYS */;
-INSERT INTO `dtl_orders` VALUES (1,1,NULL,122.00,'Completed','333','2025-03-05 10:23:40','2025-03-05 10:23:40');
+INSERT INTO `dtl_orders` VALUES (1,1,NULL,122.00,'Completed','333','2025-03-05 10:23:40','2025-03-05 10:23:40'),(3,1,NULL,1.00,'Completed','1','2025-03-13 11:27:15','2025-03-13 11:27:15');
 /*!40000 ALTER TABLE `dtl_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +167,7 @@ CREATE TABLE `dtl_products` (
   KEY `CategoryID` (`CategoryID`),
   CONSTRAINT `dtl_products_ibfk_1` FOREIGN KEY (`CategoryID`) REFERENCES `dtl_categories` (`CategoryID`) ON DELETE SET NULL,
   CONSTRAINT `dtl_products_chk_1` CHECK ((`Price` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,6 +176,7 @@ CREATE TABLE `dtl_products` (
 
 LOCK TABLES `dtl_products` WRITE;
 /*!40000 ALTER TABLE `dtl_products` DISABLE KEYS */;
+INSERT INTO `dtl_products` VALUES (45,' Mocha with crushed ice',5,'What could be better than sipping an iced mocha on a hot day? It quenches your thirst and clears your mind!',1.58,'/images/1bdcd791-eeb4-49e0-9a72-523d5b352291_cach-lam-mocha-da.jpg','2025-03-08 10:03:45','2025-03-08 10:03:45','Active'),(46,'Rich Americano',7,'If Italian Espresso is often quite strong and a bit difficult to drink, Americano cups are changed to help diners find it easier to drink.',0.99,'/images/fe1970b6-49ac-4b2c-b0c9-4690de8ce4ff_americano-la-gi-nguon-goc-cach-pha-americano-don-gian-va-avt-1200x676.jpg','2025-03-08 10:08:24','2025-03-08 10:09:05','Active'),(47,'Espresso Con Panna',4,'Cafe Espresso Con Panna is an espresso with whipping cream on top. The feeling is hard to describe when you start to taste the rich sweetness of fresh milk cream combined with the delicate caramel flavor of Espresso.',4.30,'/images/9d5942df-67f8-4fd7-9109-455ec86b483b_Espresso_con_panna.JPG','2025-03-08 10:11:56','2025-03-08 10:11:56','Active'),(48,'Cappuccino Viennese​',4,'Viennese Cappuccino is the perfect combination of Cappuccino and whipped cream for coffee lovers.',5.60,'/images/ae27cb69-3159-4acc-b478-1d3c5c9592c8_maxresdefault.jpg','2025-03-08 10:15:18','2025-03-08 10:15:18','Active'),(49,'Latte Coffee',6,'A drink of Italian origin consisting of coffee and whipped milk as its main ingredients, this drink is consumed regularly both at home and in cafes and bars.',3.20,'/images/a57159ec-30e2-4fda-a66e-b6cfb6b1f84a_Latte_at_Doppio_Ristretto_Chiang_Mai_01.jpg','2025-03-08 10:21:02','2025-03-08 10:21:02','Active'),(55,'Hot Mocha Coffee',5,'Hot Mocha coffee has the light bitterness of coffee, the sweetness of milk, the richness of fresh milk and the aroma of chocolate. This is a delicious, attractive drink, suitable for all ages.',2.30,'/images/f395aff8-4eef-40be-b0f0-5bbe69e6d6eb_cach-lam-mocha-nong.jpg','2025-03-12 21:43:26','2025-03-12 21:48:52','nonacv');
 /*!40000 ALTER TABLE `dtl_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +235,7 @@ CREATE TABLE `dtl_reservations` (
   CONSTRAINT `dtl_reservations_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `dtl_users` (`UserID`) ON DELETE SET NULL,
   CONSTRAINT `dtl_reservations_ibfk_2` FOREIGN KEY (`TableID`) REFERENCES `dtl_tables` (`TableID`) ON DELETE CASCADE,
   CONSTRAINT `dtl_reservations_chk_1` CHECK ((`NumberOfGuests` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,6 +244,7 @@ CREATE TABLE `dtl_reservations` (
 
 LOCK TABLES `dtl_reservations` WRITE;
 /*!40000 ALTER TABLE `dtl_reservations` DISABLE KEYS */;
+INSERT INTO `dtl_reservations` VALUES (6,1,2,'2025-03-12 19:59:00',12,'Pending','13','2025-03-12 19:59:35','2025-03-12 19:59:35');
 /*!40000 ALTER TABLE `dtl_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,7 +265,7 @@ CREATE TABLE `dtl_tables` (
   PRIMARY KEY (`TableID`),
   UNIQUE KEY `TableName` (`TableName`),
   CONSTRAINT `dtl_tables_chk_1` CHECK ((`Capacity` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,6 +274,7 @@ CREATE TABLE `dtl_tables` (
 
 LOCK TABLES `dtl_tables` WRITE;
 /*!40000 ALTER TABLE `dtl_tables` DISABLE KEYS */;
+INSERT INTO `dtl_tables` VALUES (2,'01',6,'Available','2025-03-12 19:57:43','2025-03-12 19:57:43');
 /*!40000 ALTER TABLE `dtl_tables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,4 +323,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-07  9:57:10
+-- Dump completed on 2025-03-13 18:59:08

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductsService from "../../../service/ProductsService";
 import DashboardLayout from "../../layout/DashboardLayout";
@@ -6,15 +7,25 @@ import DashboardLayout from "../../layout/DashboardLayout";
 function EditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    productName: "",
-    categoryID: "",
-    description: "",
-    price: "",
-    imageURL: "",
-    status: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      productId: id,
+      productName: "",
+      categoryID: "",
+      description: "",
+      price: "",
+      imageURL: "",
+      status: "",
+    },
   });
-  const [file, setFile] = useState(null); // Thêm state cho file mới
+  const [file, setFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [initialImageURL, setInitialImageURL] = useState(""); // State để lưu imageURL ban đầu
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -27,7 +38,7 @@ function EditProduct() {
       setLoading(true);
       try {
         const data = await ProductsService.showProduct(id);
-        setFormData({
+        reset({
           productName: data.productName,
           categoryID: data.categoryID || "",
           description: data.description || "",
@@ -35,6 +46,7 @@ function EditProduct() {
           imageURL: data.imageURL || "",
           status: data.status,
         });
+        setInitialImageURL(data.imageURL || ""); // Lưu imageURL ban đầu
         setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch product details");
@@ -42,36 +54,29 @@ function EditProduct() {
       }
     };
     fetchProduct();
-  }, [id]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        name === "categoryID" ? parseInt(value) || "" : name === "price" ? parseFloat(value) || "" : value,
-    }));
-  };
+  }, [id, reset]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
     if (selectedFile) {
       const previewUrl = URL.createObjectURL(selectedFile);
-      setFormData((prev) => ({ ...prev, imageURL: previewUrl }));
+      setPreviewImage(previewUrl);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    
     setLoading(true);
     setError(null);
     try {
-      await ProductsService.editProduct(id, formData, file);
+      await ProductsService.editProduct(id, data, file);
       navigate("/products");
-      setLoading(false);
     } catch (err) {
-      setError(err.message || "Failed to update product");
+      const errorMessage = err.response?.data?.message || err.message || "Failed to update product";
+      console.error("Update failed:", err.response?.data || err);
+      setError(errorMessage);
+    } finally {
       setLoading(false);
     }
   };
@@ -83,34 +88,32 @@ function EditProduct() {
         {loading && <p className="text-gray-500">Loading...</p>}
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {!loading && !error && (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">Product Name</label>
               <input
                 type="text"
-                name="productName"
-                value={formData.productName}
-                onChange={handleInputChange}
-                required
+                {...register("productName", { required: "Product Name is required" })}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
+              {errors.productName && (
+                <p className="text-red-500 text-sm">{errors.productName.message}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Category ID</label>
               <input
                 type="number"
-                name="categoryID"
-                value={formData.categoryID}
-                onChange={handleInputChange}
+                {...register("categoryID", {
+                  setValueAs: (v) => (v === "" ? "" : parseInt(v)),
+                })}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Description</label>
               <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
+                {...register("description")}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -118,22 +121,24 @@ function EditProduct() {
               <label className="block text-sm font-medium text-gray-700">Price</label>
               <input
                 type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
                 step="0.01"
-                required
+                {...register("price", {
+                  required: "Price is required",
+                  setValueAs: (v) => (v === "" ? "" : parseFloat(v)),
+                })}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
+              {errors.price && (
+                <p className="text-red-500 text-sm">{errors.price.message}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Current Image</label>
-              {formData.imageURL ? (
+              {previewImage || initialImageURL ? (
                 <img
                   src={
-                    file
-                      ? formData.imageURL
-                      : `http://localhost:8080${formData.imageURL}`
+                    previewImage ||
+                    (initialImageURL ? `http://localhost:8080${initialImageURL}` : "/fallback-image.jpg")
                   }
                   alt="Product"
                   className="mt-2 h-32 w-32 object-cover rounded-md"
@@ -155,11 +160,10 @@ function EditProduct() {
             <div>
               <label className="block text-sm font-medium text-gray-700">Status</label>
               <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
+                {...register("status")}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md"
               >
+                <option disabled value=""></option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>
