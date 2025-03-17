@@ -2,19 +2,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/common/Header";
+import UILayout from "../components/layout/UILayout";
 
 function AboutPage() {
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      {/* Header */}
-      <Header />
-
+    <UILayout>
       {/* Hero Section */}
       <section className="bg-[#2c3e50] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">About DTL Coffee</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            About DTL Coffee
+          </h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto">
-            We are passionate about delivering the finest coffee experience to our customers, blending tradition with innovation.
+            We are passionate about delivering the finest coffee experience to
+            our customers, blending tradition with innovation.
           </p>
         </div>
       </section>
@@ -24,12 +25,19 @@ function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-semibold text-gray-800 mb-4">Our Story</h2>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+                Our Story
+              </h2>
               <p className="text-gray-600 mb-4">
-                DTL Coffee was founded with a simple mission: to bring exceptional coffee to every cup. From humble beginnings, we’ve grown into a beloved brand, sourcing the best beans globally and crafting unique blends that tell a story in every sip.
+                DTL Coffee was founded with a simple mission: to bring
+                exceptional coffee to every cup. From humble beginnings, we’ve
+                grown into a beloved brand, sourcing the best beans globally and
+                crafting unique blends that tell a story in every sip.
               </p>
               <p className="text-gray-600">
-                Our commitment to quality and sustainability drives everything we do, ensuring that every bean we roast contributes to a better world.
+                Our commitment to quality and sustainability drives everything
+                we do, ensuring that every bean we roast contributes to a better
+                world.
               </p>
             </div>
             <div>
@@ -46,7 +54,9 @@ function AboutPage() {
       {/* Core Values */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-12">Our Core Values</h2>
+          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-12">
+            Our Core Values
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
@@ -70,36 +80,16 @@ function AboutPage() {
                 key={index}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <h3 className="text-xl font-medium text-gray-800 mb-2">{value.title}</h3>
+                <h3 className="text-xl font-medium text-gray-800 mb-2">
+                  {value.title}
+                </h3>
                 <p className="text-gray-600">{value.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-    
-
-      {/* Footer */}
-      <footer className="bg-[#2c3e50] text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-light">
-            © 2025 DTL Coffee. All rights reserved.
-          </p>
-          <div className="mt-4 space-x-4">
-            <Link to="#" className="text-gray-400 hover:text-white transition duration-200">
-              Privacy Policy
-            </Link>
-            <Link to="#" className="text-gray-400 hover:text-white transition duration-200">
-              Terms of Service
-            </Link>
-            <Link to="#" className="text-gray-400 hover:text-white transition duration-200">
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </UILayout>
   );
 }
 

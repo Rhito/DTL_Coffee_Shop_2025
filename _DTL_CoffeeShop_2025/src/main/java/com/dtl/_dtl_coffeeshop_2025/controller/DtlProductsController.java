@@ -5,12 +5,10 @@ import com.dtl._dtl_coffeeshop_2025.service.DtlProductsService;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsQueryVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsUpdateVO;
 import com.dtl._dtl_coffeeshop_2025.vo.DtlProductsVO;
-import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
@@ -26,6 +24,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 @Validated
 @RestController
@@ -38,24 +38,20 @@ public class DtlProductsController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-
     @GetMapping("/images/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
-        Path path = Paths.get(uploadDir + filename);  // Tạo đường dẫn tới file ảnh
-        Resource resource = new UrlResource(path.toUri());  // Dùng UrlResource thay vì ClassPathResource
+        Path path = Paths.get(uploadDir + filename);
+        Resource resource = new UrlResource(path.toUri());
 
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Đường dẫn file: " + path.toAbsolutePath());
-        String contentType = Files.probeContentType(path);  // Xác định loại file (jpg, png,...)
+        String contentType = Files.probeContentType(path);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(resource);
     }
-
-
 
     @PostMapping(consumes = {"multipart/form-data"})
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
@@ -91,11 +87,18 @@ public class DtlProductsController {
     public ResponseEntity<Page<DtlProductsDTO>> query(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "1000") Integer size,
-            @RequestParam(required = false) String productName) {
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String categoryIds, // Thêm categoryIds dưới dạng chuỗi
+            @RequestParam(required = false) Double minPrice,    // Thêm minPrice
+            @RequestParam(required = false) Double maxPrice) {  // Thêm maxPrice
         DtlProductsQueryVO vO = new DtlProductsQueryVO();
         vO.setPage(page);
         vO.setSize(size);
         vO.setProductName(productName);
+        vO.setCategoryIds(categoryIds != null ? Arrays.stream(categoryIds.split(","))
+                .map(Integer::parseInt).toList() : null); // Chuyển chuỗi thành List<Integer>
+        vO.setMinPrice(minPrice);
+        vO.setMaxPrice(maxPrice);
         Page<DtlProductsDTO> products = dtlProductsService.query(vO);
         return ResponseEntity.ok(products);
     }

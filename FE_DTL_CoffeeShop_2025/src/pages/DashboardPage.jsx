@@ -144,7 +144,6 @@ function DashboardPage() {
                             key={order.orderID || `order-${index}`}
                             className="border-b hover:bg-gray-50"
                           >
-                            <td>{console.log(order)}</td>
                             <td className="py-2 px-4">{order.orderID || "N/A"}</td>
                             <td className="py-2 px-4">
                               ${Number(order.totalAmount || 0).toLocaleString()}

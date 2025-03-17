@@ -19,7 +19,7 @@ import {
 function DashboardLayout({ children }) {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Trạng thái sidebar trên mobile
-
+  const fullName = localStorage.getItem('fullName') || "Admin"
   // Kiểm tra quyền truy cập khi component mount
   useEffect(() => {
     if (
@@ -133,7 +133,7 @@ function DashboardLayout({ children }) {
               To Home Page
             </Link>
             <span className="text-gray-600">
-              Welcome, {UsersService.isAdmin() ? "Admin" : "Employee"}
+              Welcome, {fullName}
             </span>
           </div>
         </header>

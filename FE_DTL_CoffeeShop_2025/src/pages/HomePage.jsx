@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Dribbble,
-  Mail,
-} from "lucide-react";
+import { Facebook, Twitter, Instagram, Dribbble, Mail } from "lucide-react";
 import ProductsService from "../service/ProductsService";
 import Header from "../components/common/Header";
 import backgroundImage from "../assets/pngtree-coffee-and-croissants-on-a-table-under-morning-lights-generated-ai-image_15739880_cleanup.jpg";
+import UILayout from "../components/layout/UILayout";
 
 function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -32,10 +27,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Header */}
-      <Header />
-
+    <UILayout>
       {/* Hero Section */}
       <section
         className="relative bg-cover bg-center h-[600px] flex items-center"
@@ -86,7 +78,9 @@ function HomePage() {
                     <h4 className="text-xl font-medium text-gray-800 mb-2">
                       {product.productName}
                     </h4>
-                    <p className="text-gray-600 mb-4">${product.price.toFixed(2)}</p>
+                    <p className="text-gray-600 mb-4">
+                      ${product.price.toFixed(2)}
+                    </p>
                     <Link
                       to={`/product-detail/${product.productID}`}
                       className="inline-block bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition duration-200"
@@ -135,36 +129,7 @@ function HomePage() {
           </ul>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-light">
-            © 2025 DTL Coffee. All rights reserved.
-          </p>
-          <div className="mt-4 space-x-6">
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </UILayout>
   );
 }
 

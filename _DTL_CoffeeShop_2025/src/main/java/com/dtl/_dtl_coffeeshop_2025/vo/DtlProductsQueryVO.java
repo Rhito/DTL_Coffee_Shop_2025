@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class DtlProductsQueryVO implements Serializable {
@@ -20,7 +21,10 @@ public class DtlProductsQueryVO implements Serializable {
 
     private Integer categoryID;
 
+    private List<Integer> categoryIds;
     private String description;
+    private Double minPrice;
+    private Double maxPrice;
 
     private BigDecimal price;
 

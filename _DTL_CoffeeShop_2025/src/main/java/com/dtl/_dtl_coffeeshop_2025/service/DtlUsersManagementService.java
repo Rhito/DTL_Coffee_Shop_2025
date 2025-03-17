@@ -81,6 +81,8 @@ public class DtlUsersManagementService {
             responseDTO.setStatusCode(200);
             responseDTO.setToken(jwt);
             responseDTO.setRole(user.getRole());
+            responseDTO.setUserID(user.getUserID());
+            responseDTO.setFullName(user.getFullName());
             responseDTO.setRefreshToken(refreshToken);
 
             // Thiết lập thời gian hết hạn token (24 giờ)

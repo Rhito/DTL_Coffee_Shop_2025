@@ -5,10 +5,12 @@ class UsersService {
   static async login(email, password) {
     try {
       const response = await api.post("/auth/login", { email, password });
-      const { token, role } = response.data;
+      const { token, role, userID, fullName } = response.data;
 
       if (token) {
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", userID);
+        localStorage.setItem("fullName", fullName);
         if (role) localStorage.setItem("role", role.toUpperCase()); // Chuẩn hóa role thành uppercase
       }
       return response.data;
@@ -95,8 +97,7 @@ class UsersService {
 
   // AUTHENTICATION CHECKED //
   static logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    localStorage.clear();
   }
 
   static isAuthenticated() {

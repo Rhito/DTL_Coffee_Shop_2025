@@ -58,8 +58,11 @@ import TableDetails from "./components/dashboard/tables/TableDetails.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage.jsx";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 function App() {
+  const userID = localStorage.getItem("userId");
   const routeCRUD = [
     {
       path: "/users",
@@ -144,20 +147,36 @@ function App() {
     },
   ];
   return (
-    <CartProvider> {/* Bọc ứng dụng trong CartProvider */}
+    <CartProvider>
+      {" "}
+      {/* Bọc ứng dụng trong CartProvider */}
       <BrowserRouter>
         <Routes>
           {/* Các route giữ nguyên */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/product-detail/:productId" element={<ProductDetailPage />} />
+          <Route
+            path="/product-detail/:productId"
+            element={<ProductDetailPage />}
+          />
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route index element={<DashboardPage />} />
           </Route>
+
+          {userID && (
+            <Route path="/profile" element={<PrivateRoute />}>
+              <Route index element={<ProfilePage />} />
+            </Route>
+          )}
           {routeCRUD.map((route) => (
-            <Route key={route.path} path={route.path} element={<PrivateRoute />}>
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<PrivateRoute />}
+            >
               <Route index element={route.elements.list} />
               <Route path="edit/:id" element={route.elements.edit} />
               <Route path="create" element={route.elements.create} />

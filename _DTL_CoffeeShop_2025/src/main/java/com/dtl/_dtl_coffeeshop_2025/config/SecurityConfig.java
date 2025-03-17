@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/public/**", "/products","/images/**", "/products/**").permitAll()
+                        .requestMatchers("/auth/**", "/public/**","/images/**", "/products","/categories", "/reservations/*").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/employee/**").hasAuthority("EMPLOYEE")

@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import ProductsService from "../service/ProductsService";
 import Header from "../components/common/Header";
 import { CartContext } from "../context/CartContext"; // Import CartContext
+import UILayout from "../components/layout/UILayout";
 
 function ProductDetailPage() {
   const { productId } = useParams();
@@ -45,8 +46,7 @@ function ProductDetailPage() {
     return <div className="text-center py-20">Product not found</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <Header />
+    <UILayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <nav className="text-sm text-gray-600 space-x-2">
           <Link to="/" className="hover:text-gray-800">
@@ -113,34 +113,7 @@ function ProductDetailPage() {
           </div>
         </div>
       </section>
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-light">
-            © 2025 DTL Coffee. All rights reserved.
-          </p>
-          <div className="mt-4 space-x-6">
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              to="#"
-              className="text-gray-400 hover:text-white transition duration-200"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </UILayout>
   );
 }
 

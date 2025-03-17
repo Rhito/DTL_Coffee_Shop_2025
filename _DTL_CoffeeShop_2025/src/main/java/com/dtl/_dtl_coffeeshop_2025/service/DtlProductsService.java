@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -52,63 +54,51 @@ public class DtlProductsService {
     public void delete(Integer id) {
         DtlProducts product = requireOne(id);
 
-        // Xóa file ảnh nếu tồn tại
         if (product.getImageURL() != null) {
-            String filePath = uploadDir + product.getImageURL();
-            filePath = filePath.replace("/images/", "");
+            String filePath = uploadDir + product.getImageURL().replace("/images/", "");
             try {
                 Path path = Paths.get(filePath);
                 if (Files.exists(path)) {
-                    Files.delete(path);  // Xóa file
+                    Files.delete(path);
                     System.out.println("Đã xóa file: " + filePath);
-                } else {
-                    System.out.println("Không tìm thấy file: " + filePath);
                 }
             } catch (IOException e) {
                 System.out.println("Lỗi khi xóa file: " + e.getMessage());
             }
         }
 
-        // Xóa sản phẩm trong database
         dtlProductsRepository.delete(product);
     }
-
 
     public DtlProductsDTO update(Integer id, DtlProductsUpdateVO vo, MultipartFile file) throws IOException {
         DtlProducts bean = requireOne(id);
 
         if (file != null && !file.isEmpty()) {
-            // Xóa file ảnh nếu tồn tại
             if (bean.getImageURL() != null) {
-                String filePath = uploadDir + bean.getImageURL();
-                filePath = filePath.replace("/images/", "");
+                String filePath = uploadDir + bean.getImageURL().replace("/images/", "");
                 try {
                     Path path = Paths.get(filePath);
                     if (Files.exists(path)) {
-                        Files.delete(path);  // Xóa file
+                        Files.delete(path);
                         System.out.println("Đã xóa file: " + filePath);
-                    } else {
-                        System.out.println("Không tìm thấy file: " + filePath);
                     }
-                    BeanUtils.copyProperties(vo, bean, "productID");
                 } catch (IOException e) {
                     System.out.println("Lỗi khi xóa file: " + e.getMessage());
                 }
             }
 
-            // Upload file mới
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path uploadPath = Paths.get(uploadDir, fileName);
-            Files.createDirectories(uploadPath.getParent());  // Tạo thư mục nếu chưa có
+            Files.createDirectories(uploadPath.getParent());
             Files.write(uploadPath, file.getBytes());
-            bean.setImageURL("/images/" + fileName);  // Cập nhật URL của file mới
+            bean.setImageURL("/images/" + fileName);
         }
 
+        BeanUtils.copyProperties(vo, bean, "productID");
         bean.setUpdatedAt(new Date());
         bean = dtlProductsRepository.save(bean);
         return toDTO(bean);
     }
-
 
     public DtlProductsDTO getById(Integer id) {
         DtlProducts original = requireOne(id);
@@ -117,9 +107,18 @@ public class DtlProductsService {
 
     public Page<DtlProductsDTO> query(DtlProductsQueryVO vo) {
         Pageable pageable = PageRequest.of(vo.getPage(), vo.getSize(), Sort.by("productID").ascending());
-        if (vo.getProductName() != null && !vo.getProductName().isEmpty()) {
-            return dtlProductsRepository.findByProductNameContainingIgnoreCase(vo.getProductName(), pageable)
-                    .map(this::toDTO);
+
+        // Lọc theo các điều kiện
+        if ((vo.getProductName() != null && !vo.getProductName().isEmpty()) ||
+                (vo.getCategoryIds() != null && !vo.getCategoryIds().isEmpty()) ||
+                vo.getMinPrice() != null || vo.getMaxPrice() != null) {
+            return dtlProductsRepository.findByFilters(
+                    vo.getProductName(),
+                    vo.getCategoryIds(),
+                    vo.getMinPrice(),
+                    vo.getMaxPrice(),
+                    pageable
+            ).map(this::toDTO);
         }
         return dtlProductsRepository.findAll(pageable).map(this::toDTO);
     }
