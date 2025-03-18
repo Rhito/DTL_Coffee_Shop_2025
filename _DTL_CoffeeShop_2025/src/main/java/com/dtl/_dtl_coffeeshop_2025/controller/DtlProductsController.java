@@ -62,13 +62,23 @@ public class DtlProductsController {
         return ResponseEntity.ok(createdProduct);
     }
 
-    @PutMapping(value = "edit/{id}", consumes = {"multipart/form-data"})
+    // Endpoint cập nhật dữ liệu JSON
+    @PutMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
     public ResponseEntity<DtlProductsDTO> update(
             @Valid @NotNull @PathVariable("id") Integer id,
-            @Valid @RequestPart("product") DtlProductsUpdateVO vO,
-            @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
-        DtlProductsDTO updatedProduct = dtlProductsService.update(id, vO, file);
+            @Valid @RequestBody DtlProductsUpdateVO vO) throws IOException {
+        DtlProductsDTO updatedProduct = dtlProductsService.updateData(id, vO);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    // Endpoint cập nhật ảnh
+    @PutMapping(value = "/edit/{id}/image", consumes = {"multipart/form-data"})
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public ResponseEntity<DtlProductsDTO> updateImage(
+            @Valid @NotNull @PathVariable("id") Integer id,
+            @RequestPart(value = "file") MultipartFile file) throws IOException {
+        DtlProductsDTO updatedProduct = dtlProductsService.updateImage(id, file);
         return ResponseEntity.ok(updatedProduct);
     }
 
@@ -88,15 +98,15 @@ public class DtlProductsController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "1000") Integer size,
             @RequestParam(required = false) String productName,
-            @RequestParam(required = false) String categoryIds, // Thêm categoryIds dưới dạng chuỗi
-            @RequestParam(required = false) Double minPrice,    // Thêm minPrice
-            @RequestParam(required = false) Double maxPrice) {  // Thêm maxPrice
+            @RequestParam(required = false) String categoryIds,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
         DtlProductsQueryVO vO = new DtlProductsQueryVO();
         vO.setPage(page);
         vO.setSize(size);
         vO.setProductName(productName);
         vO.setCategoryIds(categoryIds != null ? Arrays.stream(categoryIds.split(","))
-                .map(Integer::parseInt).toList() : null); // Chuyển chuỗi thành List<Integer>
+                .map(Integer::parseInt).toList() : null);
         vO.setMinPrice(minPrice);
         vO.setMaxPrice(maxPrice);
         Page<DtlProductsDTO> products = dtlProductsService.query(vO);

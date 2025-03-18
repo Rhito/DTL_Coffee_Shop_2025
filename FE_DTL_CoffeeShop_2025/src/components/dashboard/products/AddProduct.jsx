@@ -11,7 +11,7 @@ function AddProduct() {
     price: "",
     status: "Active",
   });
-  const [file, setFile] = useState(null); // Thêm state riêng cho file
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -30,8 +30,8 @@ function AddProduct() {
   };
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]; // Lấy file đầu tiên từ input
-    setFile(selectedFile); // Lưu file vào state
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
   };
 
   const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ function AddProduct() {
     setLoading(true);
     setError(null);
     try {
-      await ProductsService.addProduct(formData, file); // Gửi formData và file riêng biệt
+      await ProductsService.addProduct(formData, file);
       navigate("/products");
       setLoading(false);
     } catch (err) {
@@ -103,8 +103,8 @@ function AddProduct() {
             <label className="block text-sm font-medium text-gray-700">Product Image</label>
             <input
               type="file"
-              name="imageFile" // Đổi tên để rõ ràng hơn
-              onChange={handleFileChange} // Sử dụng hàm riêng cho file
+              name="imageFile"
+              onChange={handleFileChange}
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

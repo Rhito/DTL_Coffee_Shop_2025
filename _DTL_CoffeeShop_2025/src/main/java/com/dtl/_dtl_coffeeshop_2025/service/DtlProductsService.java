@@ -70,10 +70,28 @@ public class DtlProductsService {
         dtlProductsRepository.delete(product);
     }
 
-    public DtlProductsDTO update(Integer id, DtlProductsUpdateVO vo, MultipartFile file) throws IOException {
+    // Cập nhật dữ liệu JSON
+    public DtlProductsDTO updateData(Integer id, DtlProductsUpdateVO vo) throws IOException {
+        DtlProducts bean = requireOne(id);
+
+        // Cập nhật từng trường cụ thể thay vì dùng BeanUtils
+        if (vo.getProductName() != null) bean.setProductName(vo.getProductName());
+        if (vo.getCategoryID() != null) bean.setCategoryID(vo.getCategoryID());
+        if (vo.getDescription() != null) bean.setDescription(vo.getDescription());
+        if (vo.getPrice() != null) bean.setPrice(vo.getPrice());
+        if (vo.getStatus() != null) bean.setStatus(vo.getStatus());
+
+        bean.setUpdatedAt(new Date());
+        bean = dtlProductsRepository.save(bean);
+        return toDTO(bean);
+    }
+
+    // Cập nhật ảnh
+    public DtlProductsDTO updateImage(Integer id, MultipartFile file) throws IOException {
         DtlProducts bean = requireOne(id);
 
         if (file != null && !file.isEmpty()) {
+            // Xóa ảnh cũ nếu có
             if (bean.getImageURL() != null) {
                 String filePath = uploadDir + bean.getImageURL().replace("/images/", "");
                 try {
@@ -87,6 +105,7 @@ public class DtlProductsService {
                 }
             }
 
+            // Upload ảnh mới
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path uploadPath = Paths.get(uploadDir, fileName);
             Files.createDirectories(uploadPath.getParent());
@@ -94,7 +113,6 @@ public class DtlProductsService {
             bean.setImageURL("/images/" + fileName);
         }
 
-        BeanUtils.copyProperties(vo, bean, "productID");
         bean.setUpdatedAt(new Date());
         bean = dtlProductsRepository.save(bean);
         return toDTO(bean);
@@ -108,7 +126,6 @@ public class DtlProductsService {
     public Page<DtlProductsDTO> query(DtlProductsQueryVO vo) {
         Pageable pageable = PageRequest.of(vo.getPage(), vo.getSize(), Sort.by("productID").ascending());
 
-        // Lọc theo các điều kiện
         if ((vo.getProductName() != null && !vo.getProductName().isEmpty()) ||
                 (vo.getCategoryIds() != null && !vo.getCategoryIds().isEmpty()) ||
                 vo.getMinPrice() != null || vo.getMaxPrice() != null) {

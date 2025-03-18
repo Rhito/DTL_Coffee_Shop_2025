@@ -19,13 +19,12 @@ function EditProduct() {
       categoryID: "",
       description: "",
       price: "",
-      imageURL: "",
       status: "",
     },
   });
   const [file, setFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [initialImageURL, setInitialImageURL] = useState(""); // State để lưu imageURL ban đầu
+  const [initialImageURL, setInitialImageURL] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -43,10 +42,9 @@ function EditProduct() {
           categoryID: data.categoryID || "",
           description: data.description || "",
           price: data.price,
-          imageURL: data.imageURL || "",
           status: data.status,
         });
-        setInitialImageURL(data.imageURL || ""); // Lưu imageURL ban đầu
+        setInitialImageURL(data.imageURL || "");
         setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch product details");
@@ -66,11 +64,24 @@ function EditProduct() {
   };
 
   const onSubmit = async (data) => {
-    
     setLoading(true);
     setError(null);
     try {
-      await ProductsService.editProduct(id, data, file);
+      // Cập nhật dữ liệu JSON
+      const productData = {
+        productName: data.productName,
+        categoryID: data.categoryID ? parseInt(data.categoryID) : null,
+        description: data.description || null,
+        price: parseFloat(data.price),
+        status: data.status,
+      };
+      await ProductsService.updateProductData(id, productData);
+
+      // Cập nhật ảnh nếu có file mới
+      if (file) {
+        await ProductsService.updateProductImage(id, file);
+      }
+
       navigate("/products");
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Failed to update product";
@@ -105,7 +116,7 @@ function EditProduct() {
               <input
                 type="number"
                 {...register("categoryID", {
-                  setValueAs: (v) => (v === "" ? "" : parseInt(v)),
+                  setValueAs: (v) => (v === "" ? null : parseInt(v)),
                 })}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
@@ -163,7 +174,7 @@ function EditProduct() {
                 {...register("status")}
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md"
               >
-                <option disabled value=""></option>
+                <option disabled value="">Select Status</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
               </select>

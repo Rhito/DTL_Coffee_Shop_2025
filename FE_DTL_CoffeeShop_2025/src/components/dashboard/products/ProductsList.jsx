@@ -18,8 +18,7 @@ function ProductsList() {
     setError(null);
     try {
       const data = await ProductsService.getProducts();
-      
-      setProducts(data.content || data); // Hỗ trợ dữ liệu phân trang hoặc không
+      setProducts(data.content || data);
       setLoading(false);
     } catch (err) {
       setError(err.message || "Failed to fetch products");
@@ -60,40 +59,26 @@ function ProductsList() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Image
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map((product) =>(
+              {products.map((product) => (
                 <tr key={product.productID}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.productID}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {product.imageURL ? (
                       <img
-                        src={`http://localhost:8080${product.imageURL}`} // Đường dẫn đầy đủ tới ảnh
+                        src={`http://localhost:8080${product.imageURL}`}
                         alt={product.productName}
                         className="h-16 w-16 object-cover rounded-md"
-                        onError={(e) => (e.target.src = "/fallback-image.jpg")} // Ảnh dự phòng nếu lỗi
+                        onError={(e) => (e.target.src = "/fallback-image.jpg")}
                       />
                     ) : (
                       <span>No Image</span>
