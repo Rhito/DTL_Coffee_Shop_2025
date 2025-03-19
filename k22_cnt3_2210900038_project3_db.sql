@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `dtl_coffeeshop_2025` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `dtl_coffeeshop_2025`;
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: dtl_coffeeshop_2025
@@ -167,7 +165,7 @@ CREATE TABLE `dtl_products` (
   KEY `CategoryID` (`CategoryID`),
   CONSTRAINT `dtl_products_ibfk_1` FOREIGN KEY (`CategoryID`) REFERENCES `dtl_categories` (`CategoryID`) ON DELETE SET NULL,
   CONSTRAINT `dtl_products_chk_1` CHECK ((`Price` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +174,7 @@ CREATE TABLE `dtl_products` (
 
 LOCK TABLES `dtl_products` WRITE;
 /*!40000 ALTER TABLE `dtl_products` DISABLE KEYS */;
-INSERT INTO `dtl_products` VALUES (45,' Mocha with crushed ice',5,'What could be better than sipping an iced mocha on a hot day? It quenches your thirst and clears your mind!',1.58,'/images/1bdcd791-eeb4-49e0-9a72-523d5b352291_cach-lam-mocha-da.jpg','2025-03-08 10:03:45','2025-03-08 10:03:45','Active'),(46,'Rich Americano',7,'If Italian Espresso is often quite strong and a bit difficult to drink, Americano cups are changed to help diners find it easier to drink.',0.99,'/images/fe1970b6-49ac-4b2c-b0c9-4690de8ce4ff_americano-la-gi-nguon-goc-cach-pha-americano-don-gian-va-avt-1200x676.jpg','2025-03-08 10:08:24','2025-03-08 10:09:05','Active'),(47,'Espresso Con Panna',4,'Cafe Espresso Con Panna is an espresso with whipping cream on top. The feeling is hard to describe when you start to taste the rich sweetness of fresh milk cream combined with the delicate caramel flavor of Espresso.',4.30,'/images/9d5942df-67f8-4fd7-9109-455ec86b483b_Espresso_con_panna.JPG','2025-03-08 10:11:56','2025-03-08 10:11:56','Active'),(48,'Cappuccino Viennese​',4,'Viennese Cappuccino is the perfect combination of Cappuccino and whipped cream for coffee lovers.',5.60,'/images/ae27cb69-3159-4acc-b478-1d3c5c9592c8_maxresdefault.jpg','2025-03-08 10:15:18','2025-03-08 10:15:18','Active'),(49,'Latte Coffee',6,'A drink of Italian origin consisting of coffee and whipped milk as its main ingredients, this drink is consumed regularly both at home and in cafes and bars.',3.20,'/images/a57159ec-30e2-4fda-a66e-b6cfb6b1f84a_Latte_at_Doppio_Ristretto_Chiang_Mai_01.jpg','2025-03-08 10:21:02','2025-03-08 10:21:02','Active'),(55,'Hot Mocha Coffee',5,'Hot Mocha coffee has the light bitterness of coffee, the sweetness of milk, the richness of fresh milk and the aroma of chocolate. This is a delicious, attractive drink, suitable for all ages.',2.30,'/images/f395aff8-4eef-40be-b0f0-5bbe69e6d6eb_cach-lam-mocha-nong.jpg','2025-03-12 21:43:26','2025-03-12 21:48:52','nonacv');
+INSERT INTO `dtl_products` VALUES (45,' Mocha with crushed ice',5,'What could be better than sipping an iced mocha on a hot day? It quenches your thirst and clears your mind!',1.58,'/images/1bdcd791-eeb4-49e0-9a72-523d5b352291_cach-lam-mocha-da.jpg','2025-03-08 10:03:45','2025-03-08 10:03:45','Active'),(46,'Rich Americano',7,'If Italian Espresso is often quite strong and a bit difficult to drink, Americano cups are changed to help diners find it easier to drink.',0.99,'/images/fe1970b6-49ac-4b2c-b0c9-4690de8ce4ff_americano-la-gi-nguon-goc-cach-pha-americano-don-gian-va-avt-1200x676.jpg','2025-03-08 10:08:24','2025-03-08 10:09:05','Active'),(47,'Espresso Con Panna',4,'Cafe Espresso Con Panna is an espresso with whipping cream on top. The feeling is hard to describe when you start to taste the rich sweetness of fresh milk cream combined with the delicate caramel flavor of Espresso.',4.30,'/images/9d5942df-67f8-4fd7-9109-455ec86b483b_Espresso_con_panna.JPG','2025-03-08 10:11:56','2025-03-08 10:11:56','Active'),(48,'Cappuccino Viennese​',8,'Viennese Cappuccino is the perfect combination of Cappuccino and whipped cream for coffee lovers.',5.60,'/images/ae27cb69-3159-4acc-b478-1d3c5c9592c8_maxresdefault.jpg','2025-03-08 10:15:18','2025-03-18 17:25:24','Active'),(49,'Latte Coffee',6,'A drink of Italian origin consisting of coffee and whipped milk as its main ingredients, this drink is consumed regularly both at home and in cafes and bars.',3.20,'/images/a57159ec-30e2-4fda-a66e-b6cfb6b1f84a_Latte_at_Doppio_Ristretto_Chiang_Mai_01.jpg','2025-03-08 10:21:02','2025-03-08 10:21:02','Active'),(55,'Hot Mocha Coffee',5,'Hot Mocha coffee has the light bitterness of coffee, the sweetness of milk, the richness of fresh milk and the aroma of chocolate. This is a delicious, attractive drink, suitable for all ages.',2.30,'/images/f395aff8-4eef-40be-b0f0-5bbe69e6d6eb_cach-lam-mocha-nong.jpg','2025-03-12 21:43:26','2025-03-18 17:18:21','Active'),(56,'Ciamon Maple Capuchino',8,'There’s a new contender for the flavor-of-the-season crown.',6.80,'/images/7c2fbfd5-d0a0-4e28-b53f-129119de1e07_ciamon-maple-capuchino.jpg','2025-03-18 17:23:24','2025-03-18 17:23:24','Active'),(57,'Cappuccino Blend',8,'Cappuccino Blend give you a nice warm day',3.45,'/images/907919de-5593-4ac0-907a-286f510fc11a_Cappuccino-Blend.jpg','2025-03-18 17:30:12','2025-03-18 17:30:37','Active');
 /*!40000 ALTER TABLE `dtl_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +233,7 @@ CREATE TABLE `dtl_reservations` (
   CONSTRAINT `dtl_reservations_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `dtl_users` (`UserID`) ON DELETE SET NULL,
   CONSTRAINT `dtl_reservations_ibfk_2` FOREIGN KEY (`TableID`) REFERENCES `dtl_tables` (`TableID`) ON DELETE CASCADE,
   CONSTRAINT `dtl_reservations_chk_1` CHECK ((`NumberOfGuests` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +242,7 @@ CREATE TABLE `dtl_reservations` (
 
 LOCK TABLES `dtl_reservations` WRITE;
 /*!40000 ALTER TABLE `dtl_reservations` DISABLE KEYS */;
-INSERT INTO `dtl_reservations` VALUES (6,1,2,'2025-03-12 19:59:00',12,'Pending','13','2025-03-12 19:59:35','2025-03-12 19:59:35');
+INSERT INTO `dtl_reservations` VALUES (7,NULL,NULL,'2025-03-17 11:17:00',1,NULL,'abc','2025-03-17 11:17:30','2025-03-17 11:17:30');
 /*!40000 ALTER TABLE `dtl_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +299,7 @@ CREATE TABLE `dtl_users` (
   UNIQUE KEY `Username` (`Username`),
   UNIQUE KEY `PhoneNumber` (`PhoneNumber`),
   UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +308,7 @@ CREATE TABLE `dtl_users` (
 
 LOCK TABLES `dtl_users` WRITE;
 /*!40000 ALTER TABLE `dtl_users` DISABLE KEYS */;
-INSERT INTO `dtl_users` VALUES (1,'admin','hashed_password_1','Nguyễn Văn Admin','ADMIN','0911111111','admin@gmail.com','Hà Nội','2025-02-26 21:07:35','2025-02-28 09:21:36','Active'),(2,'staff1','hashed_password_2','Trần Thị Nhân Viên 1','EMPLOYEE','0922222222','staff1@gmail.com','TP.HCM','2025-02-26 21:07:35','2025-02-28 09:39:36','Active'),(3,'customer1','hashed_password_3','Lê Thị Khách Hàng','CUSTOMER','0933333333','customer1@gmail.com','Đà Nẵng','2025-02-26 21:07:35','2025-02-28 09:21:36','Active'),(4,'testuser','$2a$10$XRJP4dfrhsYHYOD6AF.u0eyBeOqroF0iUA55T.ZQYCiBacHpYq8WS','Test User','CUSTOMER',NULL,'testuser@example.com',NULL,'2025-02-27 20:20:04','2025-02-27 20:20:04','Active'),(5,'LongAdminmeomeo','$2a$10$XnTWVh/OuHYJS4t85w02NuNpt9ZpyqRYbqStjHokKSKleFuX79c8C','Long','ADMIN',NULL,'LongMeoMeo@gmail.com',NULL,'2025-02-27 20:48:32','2025-02-27 20:48:32','Active'),(6,'Lanlala','$2a$10$pgQOjnTH1/zj8uYUUe8p8O5kpPhdxeJXv1/9uAAbVBmcvqtuzZ0zW','Long','ADMIN',NULL,'Lanlala@gmail.com',NULL,'2025-03-02 13:59:49','2025-03-02 13:59:49','Active'),(7,'lasnguyen06','$2a$10$LwUpV7uATc.4ezeopZ7.Uuu8UZd8xHNcNvPuOob9fxxBDZ9oIjn3a','Rhito','ADMIN',NULL,'lasnguyen06@gmail.com',NULL,'2025-03-02 18:34:02','2025-03-03 08:59:13','Active'),(8,'las','$2a$10$PzDnqkkZGdP5Mf38oAA84.2k6xfyWqNdS8XHx5Mljk18xTnpwTYey','Rhito123','ADMIN',NULL,'lasnguyen@gmail.com',NULL,'2025-03-03 09:03:31','2025-03-05 00:05:50',NULL);
+INSERT INTO `dtl_users` VALUES (1,'admin','hashed_password_1','Nguyễn Văn Admin','ADMIN','0911111111','admin@gmail.com','Hà Nội','2025-02-26 21:07:35','2025-02-28 09:21:36','Active'),(2,'staff1','hashed_password_2','Trần Thị Nhân Viên 1','EMPLOYEE','0922222222','staff1@gmail.com','TP.HCM','2025-02-26 21:07:35','2025-02-28 09:39:36','Active'),(3,'customer1','hashed_password_3','Lê Thị Khách Hàng','CUSTOMER','0933333333','customer1@gmail.com','Đà Nẵng','2025-02-26 21:07:35','2025-02-28 09:21:36','Active'),(4,'testuser','$2a$10$XRJP4dfrhsYHYOD6AF.u0eyBeOqroF0iUA55T.ZQYCiBacHpYq8WS','Test User','CUSTOMER',NULL,'testuser@example.com',NULL,'2025-02-27 20:20:04','2025-02-27 20:20:04','Active'),(5,'LongAdminmeomeo','$2a$10$XnTWVh/OuHYJS4t85w02NuNpt9ZpyqRYbqStjHokKSKleFuX79c8C','Long','ADMIN',NULL,'LongMeoMeo@gmail.com',NULL,'2025-02-27 20:48:32','2025-02-27 20:48:32','Active'),(6,'Lanlala','$2a$10$pgQOjnTH1/zj8uYUUe8p8O5kpPhdxeJXv1/9uAAbVBmcvqtuzZ0zW','Long','ADMIN',NULL,'Lanlala@gmail.com',NULL,'2025-03-02 13:59:49','2025-03-02 13:59:49','Active'),(7,'lasnguyen06','$2a$10$LwUpV7uATc.4ezeopZ7.Uuu8UZd8xHNcNvPuOob9fxxBDZ9oIjn3a','Rhito','ADMIN',NULL,'lasnguyen06@gmail.com',NULL,'2025-03-02 18:34:02','2025-03-03 08:59:13','Active'),(8,'las','$2a$10$PzDnqkkZGdP5Mf38oAA84.2k6xfyWqNdS8XHx5Mljk18xTnpwTYey','Rhito123','ADMIN',NULL,'lasnguyen@gmail.com',NULL,'2025-03-03 09:03:31','2025-03-05 00:05:50',NULL),(10,'lalala','$2a$10$tKPsJ5Pt5RP6SYMKVKJy2udwjMrhPoYf97NqFNvOMCzMulaVAUwaG','lalala','CUSTOMER',NULL,'lalala123@gmail.com',NULL,'2025-03-17 11:37:33','2025-03-17 11:37:33','Active');
 /*!40000 ALTER TABLE `dtl_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -323,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-13 18:59:08
+-- Dump completed on 2025-03-19  7:44:50
